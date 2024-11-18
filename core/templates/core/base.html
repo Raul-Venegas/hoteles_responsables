@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,7 +57,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">EcoHoteles</a>
+                        <a class="nav-link active" aria-current="page" href="{% url 'core:pru' %}">EcoHoteles</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Soluciones</a>
@@ -79,9 +79,13 @@
                             <span><i class="bi bi-person-circle fs-2"></i></span>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="#">Iniciar sesión</a></li>
-                            <li><a class="dropdown-item" href="#">Registrarse</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                            {% if request.user.is_authenticated %}
+                                <li><a class="dropdown-item" href="#">Pérfil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
+                                <li><a class="dropdown-item" href="#">Registrarse</a></li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
