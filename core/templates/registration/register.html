@@ -1,6 +1,6 @@
 {% extends 'core/base_without_nav.html' %}
 {% load static %}
-{% block title %}Iniciar sesión{% endblock %}
+{% block title %}Registrate{% endblock %}
 {% block head %}
     <style>
         body {
@@ -83,51 +83,76 @@
 
     <div class="center-container">
         <div class="custom-container" style="border-radius: 10px;">
-            <h1><b>¡Bienvenid@!</b></h1>
-            {% if form.non_field_errors %}
-                <div class="alert alert-danger" role="alert">
-                    Usuario o contraseña erróneos.
-                </div>
-            {% endif %}
-            <form action="" method="post">
+            <h1><b>Crea una cuenta</b></h1>
+            <form method="post" action="{% url 'core:register' %}">
                 {% csrf_token %}
                 <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
                     <i class="bi bi-person-fill position-absolute" style="left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
                     <input 
-                      type="text" 
-                      name="username"
-                      class="form-control ps-5 custom-input" 
-                      placeholder="Nombre de Usuario" 
-                      style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                    type="text" 
+                    name="username"
+                    class="form-control ps-5 custom-input" 
+                    placeholder="Nombre de Usuario" 
+                    style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
                 </div>
-
+            
                 <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
-                    <i class="bi bi-key-fill position-absolute" style="left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
+                    <button type="button" class="btn-eye position-absolute" style="left: 0.7rem; color: #94a3b8; font-size: 1.5rem; background: none; border: none;">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
                     <input 
-                      type="password" 
-                      name="password"
-                      class="form-control ps-5 custom-input" 
-                      placeholder="Contraseña" 
-                      style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                    type="password" 
+                    name="password1"
+                    class="form-control ps-5 custom-input password-field" 
+                    placeholder="Contraseña" 
+                    style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
                 </div>
-
+            
+                <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
+                    <button type="button" class="btn-eye position-absolute" style="left: 0.7rem; color: #94a3b8; font-size: 1.5rem; background: none; border: none;">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                    <input 
+                    type="password" 
+                    name="password2"
+                    class="form-control ps-5 custom-input password-field" 
+                    placeholder="Confirmar Contraseña" 
+                    style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                </div>
+            
                 <div style="text-align: center;">
-                    <button type="submit" class="form-btn mb-3 mt-3" style="width: 90%;" >Iniciar sesión</button>
+                    <button type="submit" class="form-btn mb-3 mt-3" style="width: 90%;">Registrarte</button>
                 </div>
-
+            
                 <div style="text-align: center;">
-                    <a href="#" style="font-size: 0.9rem;">Olvidé mi contraseña</a>
+                    <a href="{% url 'login' %}" style="font-size: 0.9rem;">¿Ya tienes cuenta?</a>
                 </div>
-
-                <hr class="dropdown-divider mb-2 mt-2">
-
-                <div style="text-align: center;">
-                    <a href="{% url 'core:register' %}" class="form-btn mb-2 mt-2" style="width: 60%; font-size:0.9rem; background: #84AD44;">Crear una cuenta</a>
-                </div>
-
             </form>
         </div>
     </div>
 
 {% endblock %}
-{% block extra_scripts %}{% endblock %}
+{% block extra_scripts %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const toggleButtons = document.querySelectorAll('.btn-eye');
+            
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const icon = button.querySelector('i');
+                    const input = button.nextElementSibling;
+                    
+                    if (input.type === "password") {
+                        input.type = "text";
+                        icon.classList.remove('bi-eye-fill');
+                        icon.classList.add('bi-eye-slash-fill');
+                    } else {
+                        input.type = "password";
+                        icon.classList.remove('bi-eye-slash-fill');
+                        icon.classList.add('bi-eye-fill');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

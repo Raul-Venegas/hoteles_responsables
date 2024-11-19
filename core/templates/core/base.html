@@ -84,7 +84,7 @@
                                 <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                             {% else %}
                                 <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
-                                <li><a class="dropdown-item" href="#">Registrarse</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:register' %}">Registrarse</a></li>
                             {% endif %}
                         </ul>
                     </div>
