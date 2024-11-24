@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from .forms import CustonRegisterForm
 from django.views import View
 from django.contrib.auth import authenticate, login
@@ -7,10 +6,6 @@ from django.contrib.auth import authenticate, login
 
 def home(request):
     return render(request,'core/home.html')
-
-@login_required
-def pru(request):
-    return render(request,'core/pru.html')
 
 def aviso_privacidad(request):
     return render(request,'core/aviso_privacidad.html')
