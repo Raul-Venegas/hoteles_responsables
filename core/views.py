@@ -12,6 +12,9 @@ def home(request):
 def pru(request):
     return render(request,'core/pru.html')
 
+def aviso_privacidad(request):
+    return render(request,'core/aviso_privacidad.html')
+
 class Register(View):
     def get(self, request):
         return render(request,'registration/register.html')
@@ -25,4 +28,5 @@ class Register(View):
             user = authenticate(username = user_creation_form.cleaned_data["username"], password = user_creation_form.cleaned_data['password1'])
             login(request, user)
             return redirect('core:home')
-        pass
+        
+        return render(request, 'registration/register.html', {'form': user_creation_form})

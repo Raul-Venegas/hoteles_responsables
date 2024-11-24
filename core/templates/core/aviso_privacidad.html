@@ -1,0 +1,75 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{%block title%}Aviso de privacidad{% endblock%}
+{% block head %}
+    <style>
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin-top: 5%;
+        }
+
+        .custom-container {
+            display: flex;
+            flex-direction: column;
+            width: 35%;
+            min-height: 90%;
+            background-color: white;
+            padding: 2.5rem;
+            align-items: center;
+            transition: margin-top 0.3s ease;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2B6721;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #84AD44;
+        }
+    </style>
+{% endblock %}
+{%block content%}
+    <div class="center-container">
+        <div class="custom-container" style="border-radius: 10px;">
+            <h1><b>Aviso de privacidad</b></h1>
+            <p>
+                Hoteles Responsables ubicado en 30 de Junio de 1520 s/n, La Laguna Ticomán, 
+                Gustavo A. Madero, 07340 Ciudad de México, CDMX, es el responsable del uso y 
+                protección de sus datos personales. 
+                <br>
+                <br>
+                Al respecto le informamos lo siguiente:
+                <br>
+                La información proporcionada en esta página web será utilizada exclusivamente 
+                para obtener su puntaje como hotel responsable. Los datos recabados no serán 
+                visibles ni accesibles para ninguna persona, salvo en los casos expresamente 
+                autorizados por usted.
+                <br>
+                <br>
+                En caso de otorgar su consentimiento explícito, únicamente el nombre de su 
+                hospedaje y su ubicación serán utilizados para incluirlos en nuestro 
+                directorio de hoteles responsables, el cual estará disponible para consulta 
+                pública. 
+                <br>
+                <br>
+                Derechos ARCO
+                <br>
+                <br>
+                Usted tiene derecho a acceder, rectificar, cancelar u oponerse al 
+                tratamiento de sus datos personales en cualquier momento. Para ejercer estos 
+                derechos, puede contactarnos a través de:
+                <br>
+                <br>
+                <a href="mailto:ecoHotelesResponsables@gmail.com">ecoHotelesResponsables@gmail.com</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}
+{% block extra_scripts%}
+    
+{% endblock %}

@@ -77,6 +77,32 @@
         a:hover {
             color: #2B6721;
         }
+
+        .link-btn {
+            background: #84AD44;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none; 
+            color: white;
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+        }
+        
+        .link-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #2B6721;
+        }
+        
+        .link-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
+        
     </style>
 {% endblock %}
 {% block content %}
@@ -116,13 +142,13 @@
                 </div>
 
                 <div style="text-align: center;">
-                    <a href="#" style="font-size: 0.9rem;">Olvidé mi contraseña</a>
+                    <a href="{% url 'password_reset' %}" style="font-size: 0.9rem;">Olvidé mi contraseña</a>
                 </div>
 
-                <hr class="dropdown-divider mb-2 mt-2">
+                <hr class="dropdown-divider mb-3 mt-2">
 
                 <div style="text-align: center;">
-                    <a href="{% url 'core:register' %}" class="form-btn mb-2 mt-2" style="width: 60%; font-size:0.9rem; background: #84AD44;">Crear una cuenta</a>
+                    <a href="{% url 'core:register' %}" class="link-btn mb-2 mt-2" style="width: 60%; font-size:0.9rem; background: #84AD44;">Crear una cuenta</a>
                 </div>
 
             </form>
