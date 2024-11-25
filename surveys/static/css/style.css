@@ -8,7 +8,7 @@
 .card-container {
     display: flex;
     gap: 30px;
-    width: 100%;
+    width: 50%;
     justify-content: center;
 }
 
@@ -38,25 +38,25 @@
     background-position: center;
     filter: brightness(.9) saturate(1) contrast(1);
     transform-origin: bottom;
-    transform:  scale(1) translateZ(0);
+    transform: scale(1) translateZ(0);
     transition: .3s ease;
 }
 
-.card:hover .card-background {
+.card-container a:hover .card-background {
     transform: scale(1.15) translateZ(0);
     background-size: 290px;
 }
 
-.card-container:hover .card:not(:hover) {
+.card-container:hover a:not(:hover) .card {
     transform: scale(.9);
 }
 
-.card-container:hover > .card:not(:hover) .card-background,
-.card-container:hover > .card:not(:hover) .card-category {
+.card-container:hover a:not(:hover) .card-background,
+.card-container:hover a:not(:hover) .card-category {
     filter: brightness(.5) saturate(0) contrast(1.2) blur(20px);
 }
 
-.content{
+.content {
     top: 50%;
     left: 0;
     padding: 25px;

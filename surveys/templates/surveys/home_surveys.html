@@ -3,40 +3,74 @@
 {%block title%}Cuestionarios{% endblock%}
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-container {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            background-color: white;
+            padding: 2rem;
+            align-items: center;
+            margin-bottom: 1%;
+        }
+    </style>
 {% endblock %}
 {%block content%}
 
-    <div style="margin-bottom: 80px;"></div>
+    <div class="center-container">
+        <div class="custom-container" style="border-radius: 10px;">
+            <h1><b>Cuestionarios</b></h1>
+            <p>
+                Responde los cuestionarios y podrás evaluar cómo tu hotel contribuye a los retos
+                globales y locales de sostenibilidad. Al final, recibirás un conjunto de acciones
+                personalizadas que podrás implementar para reducir los impactos negativos, 
+                ayudar a tu entorno y mejorar la rentabilidad de tu negocio.
+            </p>
+        </div>
+    </div>
 
     <section class = "hero-section">
         <div class = "card-container">
-            <div class = "card">
-                <div class = "card-background" style = "background-image: url('{% static 'img/natural.jpeg' %}');"></div>
-                <div class = "content">
-                    <div class = "card-category">
-                        Natural
+            <a href="{% url 'surveys:natural' %}">
+                <div class = "card">
+                    <div class = "card-background" style = "background-image: url('{% static 'img/natural.jpeg' %}');"></div>
+                    <div class = "content">
+                        <div class = "card-category">
+                            Natural
+                        </div>
+                        <h3 class = "card-heading" >Armonía natural sostenible</h3>
                     </div>
-                    <h3 class = "card-heading" >Armonía natural sostenible</h3>
                 </div>
-            </div>
-            <div class = "card">
-                <div class = "card-background" style = "background-image: url('{% static 'img/socio-cultural.jpeg' %}');"></div>
-                <div class = "content">
-                    <div class = "card-category">
-                        Socio - Cultural
+            </a>
+            
+            <a href="{% url 'surveys:socio-cultural' %}">
+                <div class = "card">
+                    <div class = "card-background" style = "background-image: url('{% static 'img/socio-cultural.jpeg' %}');"></div>
+                    <div class = "content">
+                        <div class = "card-category">
+                            Socio - Cultural
+                        </div>
+                        <h3 class = "card-heading" >Respeto y comunidad</h3>
                     </div>
-                    <h3 class = "card-heading" >Respeto y comunidad</h3>
                 </div>
-            </div>
-            <div class = "card">
-                <div class = "card-background" style = "background-image: url('{% static 'img/economico.jpeg' %}');"></div>
-                <div class = "content">
-                    <div class = "card-category">
-                        Economico
+            </a>
+
+            <a href="{% url 'surveys:economico' %}">
+                <div class = "card">
+                    <div class = "card-background" style = "background-image: url('{% static 'img/economico.jpeg' %}');"></div>
+                    <div class = "content">
+                        <div class = "card-category">
+                            Economico
+                        </div>
+                        <h3 class = "card-heading" >Progreso con propósito</h3>
                     </div>
-                    <h3 class = "card-heading" >Progreso con propósito</h3>
                 </div>
-            </div>
+            </a>
         </div>
     </section>
 
