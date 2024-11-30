@@ -1,10 +1,187 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{%block title%}Natural: cuestionario{% endblock%}
+{% block title %}Natural: cuestionario{% endblock %}
 {% block head %}
+    <style>
+        .navbar {
+            background-color: #ffffff !important;
+        }
+
+        body {
+            background-color: #DEE0CA;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .custom-container {
+            display: flex;
+            flex-direction: column;
+            width: 35%;
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 2rem;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+        .form-btn {
+            background: #2B6721;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 0 !important;
+            outline: 0 !important;
+            color: white;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .form-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #84AD44;
+        }
+        
+        .form-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
+        .link-btn {
+            background: #84AD44;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none; 
+            color: white;
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+        }
+        
+        .link-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #2B6721;
+        }
+        
+        .link-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
+    </style>
 {% endblock %}
-{%block content%}
+
+{% block content %}
+    {% for question in questions %}
+        <div class="center-container question" data-question-id="{{ forloop.counter0 }}" style="display: {% if forloop.counter0 != 0 %}none{% endif %};">
+            <div class="custom-container" style="border-radius: 10px;">
+                <h3>{{ question.question.question }}</h3>
+                <form action="" method="post" style="width: 70%;">
+                    {% csrf_token %}
+                    {% if question.question.type == "open" %}
+                        <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
+                            <i class="bi bi-person-fill position-absolute" style="left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
+                            <input 
+                                type="text" 
+                                name="username"
+                                class="form-control ps-5 custom-input" 
+                                placeholder="Nombre de Usuario" 
+                                style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                        </div>
+                    {% else %}
+                        {% for answer in question.answers %}
+                            <div class="form-check mt-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" value="option1">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    <p> {{ answer.text }}</p>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <!-- Botones de navegación -->
+                    
+                    <div class="mt-2 d-flex justify-content-between" style="width: 100%;">
+                        {% if forloop.counter0 > 0 %}
+                            <button type="button" class="link-btn mb-2 mt-3" id="prev-btn" onclick="prevQuestion()" style="width: 30%;">Atrás</button>
+                        {% endif %}
+                        {% if forloop.counter0 == last_question_index %}
+                            <button type="submit" class="form-btn mb-2 mt-3">Enviar</button>
+                        {% else %}
+                            <button type="button" class="form-btn mb-2 mt-3" id="next-btn" onclick="nextQuestion()">Siguiente</button>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
 
 {% endblock %}
-{% block extra_scripts%}
+
+{% block extra_scripts %}
+    <script>
+        let currentQuestionIndex = 0;
+        const questions = document.querySelectorAll('.question');
+        const nextButton = document.getElementById('next-btn');
+        const prevButton = document.getElementById('prev-btn');
+
+        function showQuestion(index) {
+            questions.forEach((question, i) => {
+                question.style.display = i === index ? 'flex' : 'none'; // Usar 'flex' para mantener el centrado
+            });
+        
+            prevButton.style.display = index === 0 ? 'none' : 'inline-block';
+            nextButton.style.display = index === questions.length - 1 ? 'none' : 'inline-block';
+            document.querySelector('button[type="submit"]').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+
+                const currentContainer = questions[currentQuestionIndex].querySelector('.custom-container');
+                currentContainer.classList.add('shake');
+
+                setTimeout(() => {
+                    currentContainer.classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+                const currentContainer = questions[currentQuestionIndex].querySelector('.custom-container');
+                currentContainer.classList.add('shake');
+
+                setTimeout(() => {
+                    currentContainer.classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        showQuestion(currentQuestionIndex);
+
+    </script>
 {% endblock %}
