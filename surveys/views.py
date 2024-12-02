@@ -1,7 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views import View
 from .models import Survey, Question, Answer, Resultado
+from django.contrib.auth.mixins import LoginRequiredMixin
+import json
+from django.http import JsonResponse
 # Create your views here.
 
 def home_surveys(request):
@@ -11,7 +14,7 @@ def natural(request):
     return render(request,'surveys/natural.html')
 
 #@login_required
-class Natural_survey(View):
+class Natural_survey(LoginRequiredMixin, View):
     def get(self, request):
         questions = Question.objects.filter(survey_id=1)
         context = {'questions': [], 'last_question_index': len(questions) - 1}
@@ -31,7 +34,7 @@ def socio_cultural(request):
     return render(request,'surveys/socio-cultural.html')
 
 
-class Socio_cultural_survey(View):
+class Socio_cultural_survey(LoginRequiredMixin, View):
     def get(self, request):
         questions = Question.objects.filter(survey_id=2)
         context = {'questions': [], 'last_question_index': len(questions) - 1}
@@ -53,3 +56,13 @@ def economico(request):
 @login_required
 def economico_survey(request):
     return render(request,'surveys/economico_survey.html')
+
+class Score_obtained(LoginRequiredMixin, View):
+    def post(self, request):
+        
+        # Obtener los datos del cuerpo de la solicitud
+        survey = request.POST.get('survey')  # Si envías este campo en el formulario
+        points = request.POST.get('points')
+
+        # Renderizar el template con los datos
+        return render(request, 'surveys/score_obtained.html')

@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Puntos obtenidos{% endblock %}
+{% block head %}
+    <style>
+        .points-container {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color: white;
+            padding-top: 2rem;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% comment %} <h1>Resultado de la Encuesta</h1>
+    <p>Encuesta: {{ survey }}</p>
+    <p>Puntos obtenidos: {{ points }}</p> {% endcomment %}
+    {% comment %} <div class="points-container mt-2" style="border-radius: 10px; position: absolute; left: 75%;">
+        <p><b>Puntuación final</b></p>
+        <p style="color: #2B6721; font-size:1.5rem;" id="points_obtained"><b>{{  }}</b><p/>
+    </div> {% endcomment %}
+{% endblock %}
+
+{% block extra_scripts %}
+{% endblock %}

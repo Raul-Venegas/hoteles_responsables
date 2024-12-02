@@ -3,6 +3,11 @@
 {% block title %}Socio-cultural: cuestionario{% endblock %}
 {% block head %}
     <style>
+        .form-check-input:checked {
+            background-color: #2B6721;
+            border-color: #84AD44; 
+        }
+        
         .navbar {
             background-color: #ffffff !important;
         }
@@ -27,7 +32,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
         .custom-container {
@@ -41,6 +45,18 @@
             justify-content: center;
             align-items: center;
         }
+
+        .points-container {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color: white;
+            padding-top: 2rem;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
         .form-btn {
             background: #2B6721;
             padding: 10px 15px;
@@ -87,12 +103,78 @@
             transform: scale(1.15);
             box-shadow: none;
         }
+
+        
+    </style>
+    <style>
+        #progressbar {
+            counter-reset: step;
+        }
+    
+        #progressbar li {
+            position: relative;
+            text-align: center;
+            list-style-type: none;
+            font-size: 1rem;
+            color: white;
+            font-weight: bold;
+        }
+    
+        #progressbar li::before {
+            content: counter(step);
+            counter-increment: step;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            display: block;
+            background-color: #84AD44;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+    
+        #progressbar li.active::before {
+            background-color: #2B6721;
+            color: white;
+        }
+        
+        #progressbar li:not(:first-child)::after {
+            content: '';
+            position: absolute;
+            top: 33%; /* Centra verticalmente la línea */
+            left: -50%;
+            width: 100%;
+            height: 4px;
+            background-color: #84AD44;
+            z-index: -1;
+            transform: translateY(-50%); 
+        }
+        
+        #progressbar li.active::after {
+            background-color: #2B6721;
+        }
     </style>
 {% endblock %}
 
 {% block content %}
+    <div class="progress-container mt-5">
+        <ul id="progressbar" class="d-flex justify-content-center list-unstyled">
+            {% for question in questions %}
+                <li 
+                    class="progress-step {% if forloop.counter0 == 0 %}active{% endif %}" 
+                    data-step="{{ forloop.counter0 }}" 
+                    style="width: 8%; text-align: center;">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="points-container mt-2" style="border-radius: 10px; position: absolute; left: 75%;">
+        <p><b>Puntos</b></p>
+        <p style="color: #2B6721; font-size:1.5rem;" id="points_obtained"><b>0.00</b><p/>
+    </div>
+
     {% for question in questions %}
-        <div class="center-container question" data-question-id="{{ forloop.counter0 }}" style="display: {% if forloop.counter0 != 0 %}none{% endif %};">
+        <div class="center-container question mt-4" data-question-id="{{ forloop.counter0 }}" style="display: {% if forloop.counter0 != 0 %}none{% endif %};">
             <div class="custom-container" style="border-radius: 10px;">
                 <h3>{{ question.question.question }}</h3>
                 <form action="" method="post" style="width: 70%;">
@@ -110,7 +192,7 @@
                     {% else %}
                         {% for answer in question.answers %}
                             <div class="form-check mt-3">
-                                <input class="form-check-input" type="radio" name="exampleRadios" value="option1">
+                                <input class="form-check-input" type="radio" name="exampleRadios" value="{{answer.value}}">
                                 <label class="form-check-label" for="exampleRadios1">
                                     <p> {{ answer.text }}</p>
                                 </label>
@@ -134,28 +216,58 @@
             </div>
         </div>
     {% endfor %}
-
 {% endblock %}
 
 {% block extra_scripts %}
     <script>
         let currentQuestionIndex = 0;
+        let points = 0;
         const questions = document.querySelectorAll('.question');
         const nextButton = document.getElementById('next-btn');
         const prevButton = document.getElementById('prev-btn');
 
+        function updateProgressbar(index) {
+            const steps = document.querySelectorAll('#progressbar li');
+            steps.forEach((step, i) => {
+                if (i <= index) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+        
         function showQuestion(index) {
             questions.forEach((question, i) => {
-                question.style.display = i === index ? 'flex' : 'none'; // Usar 'flex' para mantener el centrado
+                question.style.display = i === index ? 'flex' : 'none';
             });
         
             prevButton.style.display = index === 0 ? 'none' : 'inline-block';
             nextButton.style.display = index === questions.length - 1 ? 'none' : 'inline-block';
             document.querySelector('button[type="submit"]').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+        
+            updateProgressbar(index);
         }
-
+        
         function nextQuestion() {
             if (currentQuestionIndex < questions.length - 1) {
+                const currentQuestion = questions[currentQuestionIndex];
+                const selectedRadio = currentQuestion.querySelector('input[type="radio"]:checked');
+                
+                if (selectedRadio) {
+                    const selectedValue = parseFloat(selectedRadio.value);
+                    points += selectedValue;
+            
+                    const pointsElement = document.getElementById('points_obtained');
+                    pointsElement.innerText = points.toFixed(2);
+                    pointsElement.classList.add('shake');
+                    setTimeout(() => {
+                        pointsElement.classList.remove('shake');
+                    }, 500);
+                } else {
+                    console.log("No se seleccionó ninguna opción.");
+                }
+
                 currentQuestionIndex++;
                 showQuestion(currentQuestionIndex);
 
