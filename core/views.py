@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .forms import CustonRegisterForm
 from django.views import View
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.base import TemplateView
+
 # Create your views here.
 
 def home(request):
@@ -25,3 +28,7 @@ class Register(View):
             return redirect('core:home')
         
         return render(request, 'registration/register.html', {'form': user_creation_form})
+    
+class ProfileUpdate(View, LoginRequiredMixin):
+    def get(self, request):
+        return render(request,'registration/profile_form.html')

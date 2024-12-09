@@ -80,7 +80,7 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="userDropdown">
                             {% if request.user.is_authenticated %}
-                                <li><a class="dropdown-item" href="#">Pérfil</a></li>
+                                <li><a class="dropdown-item" href="{% url 'core:perfil' %}">Pérfil</a></li>
                                 <li><a class="dropdown-item" href="{% url 'logout' %}">Cerrar sesión</a></li>
                             {% else %}
                                 <li><a class="dropdown-item" href="{% url 'login' %}">Iniciar sesión</a></li>
