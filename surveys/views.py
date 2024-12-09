@@ -65,4 +65,4 @@ class Score_obtained(LoginRequiredMixin, View):
         points = request.POST.get('points')
 
         # Renderizar el template con los datos
-        return render(request, 'surveys/score_obtained.html')
+        return render(request, 'surveys/score_obtained.html', context={'survey': survey, 'points': points})

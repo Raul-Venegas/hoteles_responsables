@@ -206,7 +206,7 @@
                             <button type="button" class="link-btn mb-2 mt-3" id="prev-btn" onclick="prevQuestion()" style="width: 30%;">Atrás</button>
                         {% endif %}
                         {% if forloop.counter0 == last_question_index %}
-                            <button type="button" class="form-btn mb-2 mt-3" id="submit_form" >Enviar</button>
+                            <button type="submit" class="form-btn mb-2 mt-3" id="submit_form" >Enviar</button>
                         {% else %}
                             <button type="button" class="form-btn mb-2 mt-3" id="next-btn" onclick="nextQuestion()">Siguiente</button>
                         {% endif %}
@@ -299,8 +299,32 @@
             }
         }
 
+
+
         showQuestion(currentQuestionIndex);
 
+        document.addEventListener("DOMContentLoaded", function() {
+            const surveyForm = document.getElementById("survey_form");
+            const submitButton = document.getElementById("submit_form");
+        
+            submitButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                let pageInput = document.createElement('input');
+                pageInput.type = 'hidden';
+                pageInput.name = 'survey';
+                pageInput.value = "Natural";
+                surveyForm.appendChild(pageInput);
+
+                let pageInput2 = document.createElement('input');
+                pageInput2.type = 'hidden';
+                pageInput2.name = 'points';
+                pageInput2.value = points;
+                surveyForm.appendChild(pageInput2);
+
+                surveyForm.submit();
+                
+            });
+        });
         
     </script>
 
