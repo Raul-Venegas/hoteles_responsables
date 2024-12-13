@@ -3,8 +3,9 @@ from .forms import CustonRegisterForm
 from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.base import TemplateView
-
+from django.views.generic.edit import UpdateView
+from .models import Profile
+from django.urls import reverse_lazy
 # Create your views here.
 
 def home(request):
@@ -29,6 +30,9 @@ class Register(View):
         
         return render(request, 'registration/register.html', {'form': user_creation_form})
     
-class ProfileUpdate(View, LoginRequiredMixin):
-    def get(self, request):
-        return render(request,'registration/profile_form.html')
+class ProfileUpdate(UpdateView, LoginRequiredMixin):
+    model = Profile 
+    fields = ['hotel_logo', 'bio', 'address', 'name_hotel']
+    success_url = reverse_lazy('profile')
+
+    template_name = 'registration/profile_form.html'
