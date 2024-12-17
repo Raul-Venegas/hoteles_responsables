@@ -2,39 +2,50 @@
 {% load static %}
 {% block title %}Puntos obtenidos{% endblock %}
 {% block head %}
-    <style>
-        .center-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .custom-container {
-            display: flex;
-            flex-direction: column;
-            width: 25%;
-            background-color: white;
-            padding: 2.5rem;
-            border-radius: 2rem;
-            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/score.css' %}">
 {% endblock %}
-
 {% block content %}
-    <div class="center-container">
-        <h1 class="mt-4"><b>{{ survey }}</b></h1>
-    </div>
-
-    <div class="center-container question mt-4">
-        <div class="custom-container" style="border-radius: 10px;">
-            <p class="mt-3"><b>Puntuación final</b></p>
-            <p style="color: #2B6721; font-size:1.5rem;"><b>{{ points }}</b><p/>
+    <div class="center-container mt-5">
+        <div class="results-summary-container">
+            <div class="confetti">
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+                <div class="confetti-piece"></div>
+            </div>
+            <div class="results-summary-container__result">
+                <div class="heading-tertiary">Cuestionario {{ survey }}</div>
+                <div class="result-box">
+                    <div class="heading-primary">{{ points }}</div>
+                    <p class="result"></p>
+                </div>
+                <div class="result-text-box">
+                    <div class="heading-secondary">¡Excelente!</div>
+                    <p class="paragraph">
+                        Se han asignado las acciones para tomar cartas en en asunto ¡Descubrelas!
+                    </p>
+                </div>
+                <div style="text-align: center;">
+                    <a href="{% url 'core:register' %}" class="link-btn mb-2 mt-2" >Ver acciones</a>
+                </div>              
+            </div>
         </div>
     </div>
 {% endblock %}
-
 {% block extra_scripts %}
 {% endblock %}
