@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import CustonRegisterForm
+from .forms import CustonRegisterForm, ProfileForm
 from django.views import View
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -32,7 +32,10 @@ class Register(View):
     
 class ProfileUpdate(UpdateView, LoginRequiredMixin):
     model = Profile 
-    fields = ['hotel_logo', 'bio', 'address', 'name_hotel']
-    success_url = reverse_lazy('profile')
-
+    form_class = ProfileForm
+    success_url = reverse_lazy('core:perfil')
     template_name = 'registration/profile_form.html'
+
+    def get_object(self):
+        profile, created = Profile.objects.get_or_create(user=self.request.user)
+        return profile

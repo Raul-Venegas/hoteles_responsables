@@ -3,6 +3,7 @@
 {% block title %}Editar perfil{% endblock %}
 {% block head %}
     <style>
+
         body {
             background-image: url('{% static 'img/login_back.jpg' %}');
             background-size: cover;
@@ -33,11 +34,11 @@
             border: 1px solid transparent;
             transition: 0.5s ease;
         }
-          
+        
         .custom-input::placeholder {
             color: #94a3b8;
         }
-          
+        
         .custom-input:hover, 
         .custom-input:focus {
             border-color: #072815;
@@ -77,17 +78,48 @@
             box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
             justify-content: center;
             align-items: center;
+            padding: 1rem;
+        }
+
+        a {
+            text-decoration: none;
+            color: #84AD44;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #fff;
+        }
+
+        .link-btn {
+            background: #84AD44;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none; 
+            color: white;
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+        }
+        
+        .link-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #2B6721;
+        }
+        
+        .link-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
         }
     </style>
 {% endblock %}
 {% block content %}
-    <div class="points-container" style="border-radius: 10px; position: absolute; left: 8%; top: 10%;">
-        {% if request.user.perfil.hotel_logo %}
-        {% else %}
-            <img src="{% static 'img/no-icon.png' %}" style="width: 60%;">
-        {% endif %}
-        <p class="mt-2" style="font-size:1.3rem;"><b>Icono de tu hotel</b></p>
-    </div>
+    
+
     <div class="center-container">
         <div class="custom-container" style="border-radius: 10px;">
             <h1><b>¡Hola {{ user.username }}!</b></h1>
@@ -96,46 +128,45 @@
                     Usuario o contraseña erróneos.
                 </div>
             {% endif %}
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
+                <div class="points-container" style="border-radius: 10px; position: absolute; left: 8%; top: 10%;">
+                    {% if request.user.profile.hotel_logo %}
+                        <img src="{{request.user.profile.hotel_logo.url}}" class="img-fluid" style="max-height: 50%;">
+                        <p class="mt-1">¿Borrar? <input type="checkbox" name="hotel_logo-clear" id="hotel_logo-clear_id"> </p>
+                    {% else %}
+                        <img src="{% static 'img/no-icon.png' %}" style="width: 70%;">
+                    {% endif %}
+                    <p class="mt-2" style="font-size:1.3rem;"><b>Logo de tu hotel</b></p>
+                </div>
                 <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
                     <i class="bi bi-house-door-fill position-absolute" style="left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
-                    <input 
-                      type="text" 
-                      name="hotelname"
-                      class="form-control ps-5 custom-input" 
-                      placeholder="Nombre del hotel" 
-                      style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                    {{ form.name_hotel }}
                 </div>
-
+            
+                <!-- Campo Ubicación -->
                 <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
                     <i class="bi bi-geo-alt-fill position-absolute" style="left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
-                    <input 
-                      type="text" 
-                      name="location"
-                      class="form-control ps-5 custom-input" 
-                      placeholder="Ubicación" 
-                      style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                    {{ form.address }}
+                </div>
+            
+                <!-- Campo Bio -->
+                <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
+                    <i class="bi bi-chat-fill position-absolute" style="top: 1rem; left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
+                    {{ form.bio }}
+                </div>
+            
+                <!-- Campo Logo del Hotel -->
+                <div class="mb-3 mt-3" style="width: 97%;">
+                    <label for="hotel_logo">Logo del hotel</label>
+                    <input class="form-control" type="file" id="hotel_logo" name="hotel_logo">
+                </div>
+                <div style="text-align: center;">
+                    <button type="submit" class="form-btn mb-2 mt-3" style="width: 90%;" >Actualizar</button>
                 </div>
 
-                <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 100%;">
-                    <i class="bi bi-chat-fill position-absolute" style="top: 0.5rem; left: 1rem; color: #94a3b8; font-size: 1.5rem; z-index: 2;"></i>
-                    <textarea 
-                        class="form-control ps-5" 
-                        id="presentation" 
-                        name="presentation" 
-                        rows="5" 
-                        placeholder="Cuéntamos sobre tu hotel..."
-                        style="border-radius: 10px; background-color: #f8fafc; color: #0d0c22; resize: none;"></textarea>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="formFile" class="form-label"><b>Logo de tu hotel</b></label>
-                    <input class="form-control" type="file" id="formFile">
-                </div>
-                
                 <div style="text-align: center;">
-                    <button type="submit" class="form-btn mb-3 mt-3" style="width: 90%;" >Actualizar</button>
+                    <a href="{% url 'core:home' %}" class="link-btn mt-2" style="width: 40%; background: #84AD44;">Inicio</a>
                 </div>
             </form>
         </div>
