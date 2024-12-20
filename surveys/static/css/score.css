@@ -47,13 +47,14 @@ a:hover {
     border-radius: 30px;
     box-shadow: 10px 20px 20px rgba(132, 173, 68, 0.3); /* #84AD44 */
     backface-visibility: hidden;
-    background-image: linear-gradient(to bottom, #072815, #2B6721); /* #072815 to #2B6721 */
+    background-image: linear-gradient(to bottom, #2B6721, #DEE0CA); /* #072815 to #2B6721 */
+    box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.9); 
 }
 
 .heading-primary,
 .heading-secondary,
 .heading-tertiary {
-    color: #ffffff;
+    color: black;
     text-transform: capitalize;
     margin-bottom: 10px;
     text-transform: uppercase;
@@ -63,12 +64,9 @@ a:hover {
 .heading-primary {
     font-size: 36px;
     font-weight: 600;
-    background-image: linear-gradient(to right, #84AD44, #A5C060); /* #84AD44 to #A5C060 */
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: #072815; /* Color oscuro para el texto */
-    transform: scale(1.6);
+    color: black; /* Solo el color negro para el texto */
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .heading-secondary {
@@ -87,7 +85,7 @@ a:hover {
 .paragraph {
     font-size: 17px;
     line-height: 1.4;
-    color: #DEE0CA; /* #DEE0CA */
+    color: black; /* #DEE0CA */
 }
 
 .paragraph-text-box {
@@ -111,20 +109,19 @@ a:hover {
     justify-content: center;
     padding: 20px;
     border-radius: 30px;
-    background-image: linear-gradient(to bottom, #072815, #2B6721); /* #072815 to #2B6721 */
+    background-image: linear-gradient(to bottom, #2B6721, #DEE0CA); /* #072815 to #2B6721 */
 }
 
 .result-box {
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background-image: linear-gradient(-45deg, #072815, #2B6721); /* Segunda paleta de colores */
+    background-image: linear-gradient(-45deg, #2B6721, #DEE0CA); /* Segunda paleta de colores */
     background-color: #56ab2f;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
 }
 
 .result {

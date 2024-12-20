@@ -59,10 +59,21 @@ def economico_survey(request):
 
 class Score_obtained(LoginRequiredMixin, View):
     def post(self, request):
-        
-        # Obtener los datos del cuerpo de la solicitud
-        survey = request.POST.get('survey')  # Si envías este campo en el formulario
+        survey = request.POST.get('survey')
         points = request.POST.get('points')
+
+        if survey == "Natural":
+            if not request.user.profile.points_natural:
+                request.user.profile.points_natural = points
+                request.user.profile.save()
+        elif survey == "Economico":
+            if not request.user.profile.points_eco:
+                request.user.profile.points_eco = points
+                request.user.profile.save()
+        else:
+            if not request.user.profile.points_socio:
+                request.user.profile.points_socio = points
+                request.user.profile.save()
 
         # Renderizar el template con los datos
         return render(request, 'surveys/score_obtained.html', context={'survey': survey, 'points': points})
