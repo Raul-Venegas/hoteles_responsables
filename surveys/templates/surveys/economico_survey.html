@@ -1,0 +1,354 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Económico: cuestionario{% endblock %}
+{% block head %}
+    <style>
+        .form-check-input:checked {
+            background-color: #2B6721;
+            border-color: #84AD44; 
+        }
+        
+        .navbar {
+            background-color: #ffffff !important;
+        }
+
+        body {
+            background-color: #DEE0CA;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .shake {
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-container {
+            display: flex;
+            flex-direction: column;
+            width: 35%;
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 2rem;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .points-container {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
+            background-color: white;
+            padding-top: 2rem;
+            box-shadow: 15px 15px 20px rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .form-btn {
+            background: #2B6721;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 0 !important;
+            outline: 0 !important;
+            color: white;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        
+        .form-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #84AD44;
+        }
+        
+        .form-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
+        .link-btn {
+            background: #84AD44;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none; 
+            color: white;
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+        }
+        
+        .link-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #2B6721;
+        }
+        
+        .link-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
+
+        
+    </style>
+    <style>
+        #progressbar {
+            counter-reset: step;
+        }
+    
+        #progressbar li {
+            position: relative;
+            text-align: center;
+            list-style-type: none;
+            font-size: 1rem;
+            color: white;
+            font-weight: bold;
+        }
+    
+        #progressbar li::before {
+            content: counter(step);
+            counter-increment: step;
+            width: 2rem;
+            height: 2rem;
+            line-height: 2rem;
+            display: block;
+            background-color: #84AD44;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+    
+        #progressbar li.active::before {
+            background-color: #2B6721;
+            color: white;
+        }
+        
+        #progressbar li:not(:first-child)::after {
+            content: '';
+            position: absolute;
+            top: 33%; /* Centra verticalmente la línea */
+            left: -50%;
+            width: 100%;
+            height: 4px;
+            background-color: #84AD44;
+            z-index: -1;
+            transform: translateY(-50%); 
+        }
+        
+        #progressbar li.active::after {
+            background-color: #2B6721;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="progress-container mt-5">
+        <ul id="progressbar" class="d-flex justify-content-center list-unstyled">
+            {% for question in questions %}
+                <li 
+                    class="progress-step {% if forloop.counter0 == 0 %}active{% endif %}" 
+                    data-step="{{ forloop.counter0 }}" 
+                    style="width: 8%; text-align: center;">
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="points-container mt-2" style="border-radius: 10px; position: absolute; left: 75%;">
+        <p><b>Puntos</b></p>
+        <p style="color: #2B6721; font-size:1.5rem;" id="points_obtained"><b>0.00</b><p/>
+    </div>
+
+    {% for question in questions %}
+        <div class="center-container question mt-4" data-question-id="{{ forloop.counter0 }}" style="display: {% if forloop.counter0 != 0 %}none{% endif %};">
+            <div class="custom-container" style="border-radius: 10px;">
+                <h3>{{ question.question.question }}</h3>
+                <form id="survey_form" action="{% url 'surveys:score_obtained' %}" method="post" style="width: 70%;">
+                    {% csrf_token %}
+                    {% if question.question.type == "open" %}
+                        <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
+                            <i class="bi bi-person-fill position-absolute" style="left: 1rem; color: #94a3b8; font-size: 1.5rem;"></i>
+                            <input 
+                                type="text" 
+                                name="username"
+                                class="form-control ps-5 custom-input" 
+                                placeholder="Nombre de Usuario" 
+                                style="height: 45px; border-radius: 10px; background-color: #f8fafc; color: #0d0c22;">
+                        </div>
+                    {% else %}
+                        {% for answer in question.answers %}
+                            <div class="form-check mt-3">
+                                <input class="form-check-input" type="radio" name="exampleRadios" value="{{answer.value}}">
+                                <label class="form-check-label" for="exampleRadios1">
+                                    <p> {{ answer.text }}</p>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <!-- Botones de navegación -->
+                    
+                    <div class="mt-2 d-flex justify-content-between" style="width: 100%;">
+                        {% if forloop.counter0 > 0 %}
+                            <button type="button" class="link-btn mb-2 mt-3" id="prev-btn" onclick="prevQuestion()" style="width: 30%;">Atrás</button>
+                        {% endif %}
+                        {% if forloop.counter0 == last_question_index %}
+                            <button type="submit" class="form-btn mb-2 mt-3" id="submit_form" >Enviar</button>
+                        {% else %}
+                            <button type="button" class="form-btn mb-2 mt-3" id="next-btn" onclick="nextQuestion()">Siguiente</button>
+                        {% endif %}
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block extra_scripts %}
+    <script>
+        let currentQuestionIndex = 0;
+        let points = 0;
+        let selectedValues = {};
+        const questions = document.querySelectorAll('.question');
+        const nextButton = document.getElementById('next-btn');
+        const prevButton = document.getElementById('prev-btn');
+
+        function updateProgressbar(index) {
+            const steps = document.querySelectorAll('#progressbar li');
+            steps.forEach((step, i) => {
+                if (i <= index) {
+                    step.classList.add('active');
+                } else {
+                    step.classList.remove('active');
+                }
+            });
+        }
+        
+        function showQuestion(index) {
+            questions.forEach((question, i) => {
+                question.style.display = i === index ? 'flex' : 'none';
+            });
+        
+            prevButton.style.display = index === 0 ? 'none' : 'inline-block';
+            nextButton.style.display = index === questions.length - 1 ? 'none' : 'inline-block';
+            document.querySelector('button[type="submit"]').style.display = index === questions.length - 1 ? 'inline-block' : 'none';
+        
+            updateProgressbar(index);
+        }
+        
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                const currentQuestion = questions[currentQuestionIndex];
+                const selectedRadio = currentQuestion.querySelector('input[type="radio"]:checked');
+                
+                if (selectedRadio) {
+                    const selectedValue = parseFloat(selectedRadio.value);
+                    if (selectedValues[currentQuestionIndex] !== undefined) {
+                        points -= selectedValues[currentQuestionIndex];
+                    }
+                    points += selectedValue;
+
+                    selectedValues[currentQuestionIndex] = selectedValue;
+            
+                    const pointsElement = document.getElementById('points_obtained');
+                    pointsElement.innerText = points.toFixed(2);
+                    pointsElement.classList.add('shake');
+                    setTimeout(() => {
+                        pointsElement.classList.remove('shake');
+                    }, 500);
+                } else {
+                    console.log("No se seleccionó ninguna opción.");
+                }
+
+                currentQuestionIndex++;
+                showQuestion(currentQuestionIndex);
+
+                const currentContainer = questions[currentQuestionIndex].querySelector('.custom-container');
+                currentContainer.classList.add('shake');
+
+                setTimeout(() => {
+                    currentContainer.classList.remove('shake');
+                }, 500);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion(currentQuestionIndex);
+                const currentContainer = questions[currentQuestionIndex].querySelector('.custom-container');
+                currentContainer.classList.add('shake');
+
+                setTimeout(() => {
+                    currentContainer.classList.remove('shake');
+                }, 500);
+            }
+        }
+
+
+
+        showQuestion(currentQuestionIndex);
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const surveyForm = document.getElementById("survey_form");
+            const submitButton = document.getElementById("submit_form");
+        
+            submitButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                
+                const currentQuestion = questions[currentQuestionIndex];
+                const selectedRadio = currentQuestion.querySelector('input[type="radio"]:checked');
+                
+                if (selectedRadio) {
+                    const selectedValue = parseFloat(selectedRadio.value);
+                    if (selectedValues[currentQuestionIndex] !== undefined) {
+                        points -= selectedValues[currentQuestionIndex];
+                    }
+                    points += selectedValue;
+
+                    selectedValues[currentQuestionIndex] = selectedValue;
+            
+                    const pointsElement = document.getElementById('points_obtained');
+                    pointsElement.innerText = points.toFixed(2);
+                    pointsElement.classList.add('shake');
+                    setTimeout(() => {
+                        pointsElement.classList.remove('shake');
+                    }, 500);
+                } else {
+                    console.log("No se seleccionó ninguna opción.");
+                }
+
+                let pageInput = document.createElement('input');
+                pageInput.type = 'hidden';
+                pageInput.name = 'survey';
+                pageInput.value = "Economico";
+                surveyForm.appendChild(pageInput);
+
+                let pageInput2 = document.createElement('input');
+                pageInput2.type = 'hidden';
+                pageInput2.name = 'points';
+                pageInput2.value = points;
+                surveyForm.appendChild(pageInput2);
+
+                surveyForm.submit();
+                
+            });
+        });
+        
+    </script>
+
+{% endblock %}

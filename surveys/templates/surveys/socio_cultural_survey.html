@@ -1,6 +1,6 @@
 {% extends 'core/base.html' %}
 {% load static %}
-{% block title %}Socio-cultural: cuestionario{% endblock %}
+{% block title %}Socio - Cultural: cuestionario{% endblock %}
 {% block head %}
     <style>
         .form-check-input:checked {
@@ -177,7 +177,7 @@
         <div class="center-container question mt-4" data-question-id="{{ forloop.counter0 }}" style="display: {% if forloop.counter0 != 0 %}none{% endif %};">
             <div class="custom-container" style="border-radius: 10px;">
                 <h3>{{ question.question.question }}</h3>
-                <form action="" method="post" style="width: 70%;">
+                <form id="survey_form" action="{% url 'surveys:score_obtained' %}" method="post" style="width: 70%;">
                     {% csrf_token %}
                     {% if question.question.type == "open" %}
                         <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
@@ -199,7 +199,6 @@
                             </div>
                         {% endfor %}
                     {% endif %}
-                    
                     <!-- Botones de navegación -->
                     
                     <div class="mt-2 d-flex justify-content-between" style="width: 100%;">
@@ -207,11 +206,12 @@
                             <button type="button" class="link-btn mb-2 mt-3" id="prev-btn" onclick="prevQuestion()" style="width: 30%;">Atrás</button>
                         {% endif %}
                         {% if forloop.counter0 == last_question_index %}
-                            <button type="submit" class="form-btn mb-2 mt-3">Enviar</button>
+                            <button type="submit" class="form-btn mb-2 mt-3" id="submit_form" >Enviar</button>
                         {% else %}
                             <button type="button" class="form-btn mb-2 mt-3" id="next-btn" onclick="nextQuestion()">Siguiente</button>
                         {% endif %}
                     </div>
+                    
                 </form>
             </div>
         </div>
@@ -222,6 +222,7 @@
     <script>
         let currentQuestionIndex = 0;
         let points = 0;
+        let selectedValues = {};
         const questions = document.querySelectorAll('.question');
         const nextButton = document.getElementById('next-btn');
         const prevButton = document.getElementById('prev-btn');
@@ -256,7 +257,12 @@
                 
                 if (selectedRadio) {
                     const selectedValue = parseFloat(selectedRadio.value);
+                    if (selectedValues[currentQuestionIndex] !== undefined) {
+                        points -= selectedValues[currentQuestionIndex];
+                    }
                     points += selectedValue;
+
+                    selectedValues[currentQuestionIndex] = selectedValue;
             
                     const pointsElement = document.getElementById('points_obtained');
                     pointsElement.innerText = points.toFixed(2);
@@ -293,7 +299,56 @@
             }
         }
 
+
+
         showQuestion(currentQuestionIndex);
 
+        document.addEventListener("DOMContentLoaded", function() {
+            const surveyForm = document.getElementById("survey_form");
+            const submitButton = document.getElementById("submit_form");
+        
+            submitButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                
+                const currentQuestion = questions[currentQuestionIndex];
+                const selectedRadio = currentQuestion.querySelector('input[type="radio"]:checked');
+                
+                if (selectedRadio) {
+                    const selectedValue = parseFloat(selectedRadio.value);
+                    if (selectedValues[currentQuestionIndex] !== undefined) {
+                        points -= selectedValues[currentQuestionIndex];
+                    }
+                    points += selectedValue;
+
+                    selectedValues[currentQuestionIndex] = selectedValue;
+            
+                    const pointsElement = document.getElementById('points_obtained');
+                    pointsElement.innerText = points.toFixed(2);
+                    pointsElement.classList.add('shake');
+                    setTimeout(() => {
+                        pointsElement.classList.remove('shake');
+                    }, 500);
+                } else {
+                    console.log("No se seleccionó ninguna opción.");
+                }
+
+                let pageInput = document.createElement('input');
+                pageInput.type = 'hidden';
+                pageInput.name = 'survey';
+                pageInput.value = "SocioCultural";
+                surveyForm.appendChild(pageInput);
+
+                let pageInput2 = document.createElement('input');
+                pageInput2.type = 'hidden';
+                pageInput2.name = 'points';
+                pageInput2.value = points;
+                surveyForm.appendChild(pageInput2);
+
+                surveyForm.submit();
+                
+            });
+        });
+        
     </script>
+
 {% endblock %}

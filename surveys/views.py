@@ -13,22 +13,27 @@ def home_surveys(request):
 def natural(request):
     return render(request,'surveys/natural.html')
 
-#@login_required
 class Natural_survey(LoginRequiredMixin, View):
     def get(self, request):
-        questions = Question.objects.filter(survey_id=1)
-        context = {'questions': [], 'last_question_index': len(questions) - 1}
-        for question in questions:
-            answers = Answer.objects.filter(question_id=question.pk)
-            context['questions'].append({
-                'question': question,
-                'answers': answers
-            })
+        
+        if not request.user.profile.points_natural:
 
-        return render(request,'surveys/natural_survey.html', context)
-    
-    def post(self, request):
-        return render(request,'surveys/natural_survey.html')
+            questions = Question.objects.filter(survey_id=1)
+            context = {'questions': [], 'last_question_index': len(questions) - 1}
+            for question in questions:
+                answers = Answer.objects.filter(question_id=question.pk)
+                context['questions'].append({
+                    'question': question,
+                    'answers': answers
+                })
+
+            return render(request,'surveys/natural_survey.html', context)
+        
+        else:
+            points = request.user.profile.points_natural
+            return render(request, 'surveys/score_obtained.html', context={'survey': 'Natural', 'points': points})
+
+
 
 def socio_cultural(request):
     return render(request,'surveys/socio-cultural.html')
@@ -36,26 +41,48 @@ def socio_cultural(request):
 
 class Socio_cultural_survey(LoginRequiredMixin, View):
     def get(self, request):
-        questions = Question.objects.filter(survey_id=2)
-        context = {'questions': [], 'last_question_index': len(questions) - 1}
-        for question in questions:
-            answers = Answer.objects.filter(question_id=question.pk)
-            context['questions'].append({
-                'question': question,
-                'answers': answers
-            })
+        
+        if not request.user.profile.points_socio:
 
-        return render(request,'surveys/socio_cultural_survey.html', context)
-    
-    def post(self, request):
-        return render(request,'surveys/socio_cultural_survey.html')
+            questions = Question.objects.filter(survey_id=2)
+            context = {'questions': [], 'last_question_index': len(questions) - 1}
+            for question in questions:
+                answers = Answer.objects.filter(question_id=question.pk)
+                context['questions'].append({
+                    'question': question,
+                    'answers': answers
+                })
+
+            return render(request,'surveys/socio_cultural_survey.html', context)
+        
+        else:
+            points = request.user.profile.points_socio
+            return render(request, 'surveys/score_obtained.html', context={'survey': 'Socio - cultural', 'points': points})
+
 
 def economico(request):
     return render(request,'surveys/economico.html')
 
-@login_required
-def economico_survey(request):
-    return render(request,'surveys/economico_survey.html')
+class Economico_survey(LoginRequiredMixin, View):
+    def get(self, request):
+        
+        if not request.user.profile.points_eco:
+
+            questions = Question.objects.filter(survey_id=3)
+            context = {'questions': [], 'last_question_index': len(questions) - 1}
+            for question in questions:
+                answers = Answer.objects.filter(question_id=question.pk)
+                context['questions'].append({
+                    'question': question,
+                    'answers': answers
+                })
+
+            return render(request,'surveys/economico_survey.html', context)
+        
+        else:
+            points = request.user.profile.points_eco
+            return render(request, 'surveys/score_obtained.html', context={'survey': 'Económico', 'points': points})
+
 
 class Score_obtained(LoginRequiredMixin, View):
     def post(self, request):

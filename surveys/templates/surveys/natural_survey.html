@@ -309,6 +309,29 @@
         
             submitButton.addEventListener("click", function(event) {
                 event.preventDefault();
+                
+                const currentQuestion = questions[currentQuestionIndex];
+                const selectedRadio = currentQuestion.querySelector('input[type="radio"]:checked');
+                
+                if (selectedRadio) {
+                    const selectedValue = parseFloat(selectedRadio.value);
+                    if (selectedValues[currentQuestionIndex] !== undefined) {
+                        points -= selectedValues[currentQuestionIndex];
+                    }
+                    points += selectedValue;
+
+                    selectedValues[currentQuestionIndex] = selectedValue;
+            
+                    const pointsElement = document.getElementById('points_obtained');
+                    pointsElement.innerText = points.toFixed(2);
+                    pointsElement.classList.add('shake');
+                    setTimeout(() => {
+                        pointsElement.classList.remove('shake');
+                    }, 500);
+                } else {
+                    console.log("No se seleccionó ninguna opción.");
+                }
+
                 let pageInput = document.createElement('input');
                 pageInput.type = 'hidden';
                 pageInput.name = 'survey';
