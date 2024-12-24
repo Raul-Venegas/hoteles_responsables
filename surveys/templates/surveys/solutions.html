@@ -1,0 +1,40 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{%block title%}Soluciones{% endblock%}
+{% block head %}{% endblock %}
+{%block content%}
+    {% if Natural %}
+        <div class="row">
+            <div class="col-4">
+                <div class="list-group" id="list-tab" role="tablist">
+                    {% for applied_solution in Natural %}
+                        <a class="list-group-item list-group-item-action" 
+                        id="list-{{ applied_solution.id }}-list" 
+                        data-bs-toggle="list" 
+                        href="#list-{{ applied_solution.id }}" 
+                        role="tab" 
+                        aria-controls="list-{{ applied_solution.id }}">
+                            {{ applied_solution.solution.title_solution }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-8">
+                <div class="tab-content" id="nav-tabContent">
+                    {% for applied_solution in Natural %}
+                        <div class="tab-pane fade" 
+                            id="list-{{ applied_solution.id }}" 
+                            role="tabpanel" 
+                            aria-labelledby="list-{{ applied_solution.id }}-list">
+                            {{ applied_solution.solution.text }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <h1>Contesta el formulario</h1>
+    {% endif %}
+
+{% endblock %}
+{% block extra_scripts%}{% endblock %}

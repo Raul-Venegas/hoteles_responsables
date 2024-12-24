@@ -12,4 +12,5 @@ urlpatterns = [
     path('economico/', views.economico, name="economico"),
     path('economico_encuesta/', views.Economico_survey.as_view(), name="economico_survey"),
     path('puntos/', views.Score_obtained.as_view(), name="score_obtained"),
+    path('soluciones/', views.Solutions_view.as_view(), name="solutions"),
 ]
