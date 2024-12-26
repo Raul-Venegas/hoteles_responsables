@@ -2,8 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import Question, Answer, Solutions, Applied_solutions
 from django.contrib.auth.mixins import LoginRequiredMixin
-import json
-from django.http import JsonResponse
+
 # Create your views here.
 
 def home_surveys(request):
@@ -32,11 +31,8 @@ class Natural_survey(LoginRequiredMixin, View):
             points = request.user.profile.points_natural
             return render(request, 'surveys/score_obtained.html', context={'survey': 'Natural', 'points': points})
 
-
-
 def socio_cultural(request):
     return render(request,'surveys/socio-cultural.html')
-
 
 class Socio_cultural_survey(LoginRequiredMixin, View):
     def get(self, request):
@@ -57,7 +53,6 @@ class Socio_cultural_survey(LoginRequiredMixin, View):
         else:
             points = request.user.profile.points_socio
             return render(request, 'surveys/score_obtained.html', context={'survey': 'Socio - cultural', 'points': points})
-
 
 def economico(request):
     return render(request,'surveys/economico.html')
@@ -81,7 +76,6 @@ class Economico_survey(LoginRequiredMixin, View):
         else:
             points = request.user.profile.points_eco
             return render(request, 'surveys/score_obtained.html', context={'survey': 'Económico', 'points': points})
-
 
 class Score_obtained(LoginRequiredMixin, View):
     def post(self, request):
@@ -140,7 +134,26 @@ class Score_obtained(LoginRequiredMixin, View):
 
 class Solutions_view(LoginRequiredMixin, View):
     def get(self, request):
+        context = self.get_solutions(request)
+        return render(request, 'surveys/solutions.html', context=context)
+    
+    def post(self, request):
+        solution_id = int(request.POST.get('solution_id', None))
+        applied = request.POST.get('applied', 'off') == 'on'
+        evidence = request.FILES.get('evidence', None)
+        
+        solution_applied = Applied_solutions.objects.filter(pk=solution_id).first()
 
+        solution_applied.applied = applied
+        if evidence:
+            solution_applied.evidence = evidence
+
+        solution_applied.save()
+        
+        context = self.get_solutions(request)
+        return render(request, 'surveys/solutions.html', context=context)
+
+    def get_solutions(self, request):
         solutions_natural = Applied_solutions.objects.filter(
             user=request.user,
             solution__survey_id=1
@@ -156,7 +169,6 @@ class Solutions_view(LoginRequiredMixin, View):
             solution__survey_id=3
         )
 
-        print(len(solutions_natural))
         context = {'Natural': solutions_natural, 'Eco': solutions_socio, 'Socio': solutions_eco}
-        
-        return render(request,'surveys/solutions.html', context=context)
+
+        return context
