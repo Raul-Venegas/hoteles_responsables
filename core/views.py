@@ -6,6 +6,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import UpdateView
 from .models import Profile
 from django.urls import reverse_lazy
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 def home(request):
@@ -39,3 +41,18 @@ class ProfileUpdate(UpdateView, LoginRequiredMixin):
     def get_object(self):
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
+
+class EcoHotels(View):
+    def get(self, request):
+        users_with_profiles = User.objects.select_related('profile').filter(
+            profile__isnull=False,
+            profile__name_hotel__isnull=False,
+            profile__address__isnull=False,
+        ).exclude(
+            profile__name_hotel='',
+            profile__address='',
+        )
+        context = {
+            'users_with_profiles': users_with_profiles,
+        }
+        return render(request, 'core/listEcoHotels.html', context)

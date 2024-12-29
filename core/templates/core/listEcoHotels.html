@@ -1,0 +1,101 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{%block title%}Hoteles responsables{% endblock%}
+{% block head %}
+    <style>
+        .center-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .custom-container {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            background-color: white;
+            padding: 2rem;
+            box-shadow: 2px 15px 25px rgba(0, 0, 0, 0.6);
+        }
+        .rotate {
+            transform: rotate(180deg);
+            transition: transform 0.5s ease;
+        }
+
+    </style>
+{% endblock %}
+{%block content%}
+    {% for user in users_with_profiles %}
+        <div class="center-container mt-5 mb-5">
+            <div class="custom-container" style="border-radius: 10px;">
+                <div class="row align-items-center">
+                    {% if user.profile.hotel_logo %}
+                        <div class="col-4 p-4">
+                            <img src="{{user.profile.hotel_logo.url}}" class="img-fluid" style="max-height: 50%;">
+                        </div>
+                    {% else %}
+                        <div class="col-4">
+                            <img src="{% static 'img/no-icon.png' %}" style="width: 60%;">
+                        </div>
+                    {% endif %}
+                    
+                    <div class="col-7">
+                        <h2><b>{{ user.profile.name_hotel }}</b></h2>
+                        <i class="bi bi-geo-alt-fill" style="color: #94a3b8; font-size: 1rem;"></i>
+                        {{ user.profile.address }}
+                        {% if user.profile.bio %}
+                            <div class="mt-2">
+                                {{ user.profile.bio }}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row align-items-center mt-3 mb-2" style="margin: 0 auto; text-align: center;">
+                    <a id="toggle-icon-{{ user.id }}" 
+                    style="font-size: 1.5rem; color: black; display: flex; justify-content: center; align-items: center;"
+                    data-bs-toggle="collapse" 
+                    href="#collapseExample-{{ user.id }}" 
+                    role="button" 
+                    aria-expanded="false" 
+                    aria-controls="collapseExample-{{ user.id }}">
+                        <i class="bi bi-caret-down-fill"></i>
+                    </a>
+                </div>
+                <div class="collapse" id="collapseExample-{{ user.id }}">
+                    <div class="row">
+                        <div class="col-4">
+                            Some placeholder content for the collapse component.
+                        </div>
+                        <div class="col-4">
+                            Some placeholder content for the collapse component.
+                        </div>
+                        <div class="col-4">
+                            Some placeholder content for the collapse component.
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+{% block extra_scripts%}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[id^="toggle-icon-"]').forEach(function(toggleIcon) {
+                const collapseId = toggleIcon.getAttribute('href').replace('#', '');
+                const collapseElement = document.getElementById(collapseId);
+                const icon = toggleIcon.querySelector('i');
+
+                collapseElement.addEventListener('show.bs.collapse', function () {
+                    icon.classList.add('rotate');
+                });
+
+                collapseElement.addEventListener('hide.bs.collapse', function () {
+                    icon.classList.remove('rotate');
+                });
+            });
+        });
+    </script>
+{% endblock %}
