@@ -7,6 +7,7 @@ from django.views.generic.edit import UpdateView
 from .models import Profile
 from django.urls import reverse_lazy
 from django.contrib.auth.models import User
+from surveys.models import Applied_solutions
 
 # Create your views here.
 
@@ -52,6 +53,62 @@ class EcoHotels(View):
             profile__name_hotel='',
             profile__address='',
         )
+
+        for user in users_with_profiles:
+
+            solutions_natural = Applied_solutions.objects.filter(
+                user_id=user.pk,
+                solution__survey_id = 1
+            )
+
+            solutions_naturalApplied = Applied_solutions.objects.filter(
+                user_id=user.pk,
+                solution__survey_id = 1,
+                applied=True
+            )
+
+            if len(solutions_naturalApplied) > 0:
+                percentage_natural = (len(solutions_naturalApplied)/len(solutions_natural)) * 100
+            else:
+                percentage_natural = 0
+
+            solutions_socio = Applied_solutions.objects.filter(
+                user_id=user.pk,
+                solution__survey_id = 2
+            )
+
+            solutions_socioApplied = Applied_solutions.objects.filter(
+                user_id=user.pk,
+                solution__survey_id = 2,
+                applied=True
+            )
+
+            if len(solutions_socioApplied) > 0:
+                percentage_socio = (len(solutions_socioApplied)/len(solutions_socio)) * 100
+            else:
+                percentage_socio = 0
+
+            solutions_eco = Applied_solutions.objects.filter(
+                user_id=user.pk,
+                solution__survey_id = 3
+            )
+
+            solutions_ecoApplied = Applied_solutions.objects.filter(
+                user_id=user.pk,
+                solution__survey_id = 3,
+                applied=True
+            )
+
+            if len(solutions_ecoApplied) > 0:
+                percentage_eco = (len(solutions_ecoApplied)/len(solutions_eco)) * 100
+            else:
+                percentage_eco = 0
+
+            user.percentage_natural = percentage_natural
+            user.percentage_socio = percentage_socio
+            user.percentage_eco = percentage_eco
+
+
         context = {
             'users_with_profiles': users_with_profiles,
         }

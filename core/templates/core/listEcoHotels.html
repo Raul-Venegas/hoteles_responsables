@@ -64,14 +64,89 @@
                 </div>
                 <div class="collapse" id="collapseExample-{{ user.id }}">
                     <div class="row">
-                        <div class="col-4">
-                            Some placeholder content for the collapse component.
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
+                            <b>Natural</b>
+                            {% if user.profile.points_natural %}
+                                {% if user.percentage_natural != 0 %}
+                                    <i class="bi bi-feather" style="font-size: 4rem; color: #84AD44;"></i>
+                                    <div class="w-100 mb-3">
+                                        <div class="progress" style="height: 7px;">
+                                            <div class="progress-bar"
+                                                role="progressbar" 
+                                                style="background-color: #2B6721; width: {{ user.percentage_natural }}%;" 
+                                                aria-valuenow="{{ user.percentage_natural }}" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    Han realizado el {{ user.percentage_natural }}% de las acciones
+                                {% else %}
+                                    <i class="bi bi-check-circle-fill"
+                                    style="font-size: 4rem; color: #84AD44;"></i>
+                                    Realizó el cuestionario
+                                {% endif %}
+                            {% else %}
+                                <i class="bi bi-question-circle-fill"
+                                style="font-size: 4rem; color: #84AD44;"></i>
+                                Realizará el cuestionario
+                            {% endif %}
                         </div>
-                        <div class="col-4">
-                            Some placeholder content for the collapse component.
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
+                            <b>Socio-cultural</b>
+                            {% if user.profile.points_socio %}
+                                {% if user.percentage_socio != 0 %}
+                                    <i class="bi bi-heart-fill" style="font-size: 4rem; color: #84AD44;"></i>
+                                    <div class="w-100 mb-3">
+                                        <div class="progress" style="height: 7px;">
+                                            <div class="progress-bar"
+                                                role="progressbar" 
+                                                style="background-color: #2B6721; width: {{ user.percentage_socio }}%;" 
+                                                aria-valuenow="{{ user.percentage_socio }}" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    Han realizado el {{ user.percentage_socio }}% de las acciones
+                                {% else %}
+                                    <i class="bi bi-check-circle-fill"
+                                    style="font-size: 4rem; color: #84AD44;"></i>
+                                    Realizó el cuestionario
+                                {% endif %}
+                            {% else %}
+                                <i class="bi bi-question-circle-fill"
+                                style="font-size: 4rem; color: #84AD44;"></i>
+                                Realizará el cuestionario
+                            {% endif %}
                         </div>
-                        <div class="col-4">
-                            Some placeholder content for the collapse component.
+                        <div class="col-4 d-flex flex-column justify-content-center align-items-center text-center">
+                            <b>Económico</b>
+                            {% if user.profile.points_eco %}
+                                {% if user.percentage_eco != 0 %}
+                                    <i class="bi bi-coin" style="font-size: 4rem; color: #84AD44;"></i>
+                                    <div class="w-100 mb-3">
+                                        <div class="progress" style="height: 7px;">
+                                            <div class="progress-bar"
+                                                role="progressbar" 
+                                                style="background-color: #2B6721; width: {{ user.percentage_eco }}%;" 
+                                                aria-valuenow="{{ user.percentage_eco }}" 
+                                                aria-valuemin="0" 
+                                                aria-valuemax="100">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    Han realizado el {{ user.percentage_eco }}% de las acciones
+                                {% else %}
+                                    <i class="bi bi-check-circle-fill"
+                                    style="font-size: 4rem; color: #84AD44;"></i>
+                                    Realizó el cuestionario
+                                {% endif %}
+                            {% else %}
+                                <i class="bi bi-question-circle-fill"
+                                style="font-size: 4rem; color: #84AD44;"></i>
+                                Realizará el cuestionario
+                            {% endif %}
                         </div>
                     </div>
                 </div>
