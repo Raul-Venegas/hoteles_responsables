@@ -159,16 +159,56 @@ class Solutions_view(LoginRequiredMixin, View):
             solution__survey_id=1
         )
 
+        solutions_naturalApplied = Applied_solutions.objects.filter(
+            user_id=request.user,
+            solution__survey_id = 1,
+            applied=True
+        )
+
+        percentage_natural = self.calculate_percentage(solutions_naturalApplied, solutions_natural)
+        
+
         solutions_socio = Applied_solutions.objects.filter(
             user=request.user,
             solution__survey_id=2
         )
+
+        solutions_socioApplied = Applied_solutions.objects.filter(
+            user_id=request.user,
+            solution__survey_id = 2,
+            applied=True
+        )
+
+        percentage_socio = self.calculate_percentage(solutions_socioApplied, solutions_socio)
 
         solutions_eco = Applied_solutions.objects.filter(
             user=request.user,
             solution__survey_id=3
         )
 
-        context = {'Natural': solutions_natural, 'Eco': solutions_socio, 'Socio': solutions_eco}
+        solutions_ecoApplied = Applied_solutions.objects.filter(
+            user_id=request.user,
+            solution__survey_id = 3,
+            applied=True
+        )
+
+        percentage_eco = self.calculate_percentage(solutions_ecoApplied, solutions_eco)
+
+        context = {
+            'Natural': solutions_natural, 
+            'Eco': solutions_socio, 
+            'Socio': solutions_eco,
+            'percentage_natural': percentage_natural,
+            'percentage_socio': percentage_socio,
+            'percentage_eco': percentage_eco
+            }
 
         return context
+
+    def calculate_percentage(self, value1, value2):
+        if len(value1) > 0:
+            percentage = (len(value1)/len(value2)) * 100
+        else:
+            percentage = 0
+
+        return percentage

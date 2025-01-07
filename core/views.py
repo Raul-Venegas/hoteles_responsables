@@ -67,10 +67,7 @@ class EcoHotels(View):
                 applied=True
             )
 
-            if len(solutions_naturalApplied) > 0:
-                percentage_natural = (len(solutions_naturalApplied)/len(solutions_natural)) * 100
-            else:
-                percentage_natural = 0
+            percentage_natural = self.calculate_percentage(solutions_naturalApplied, solutions_natural)
 
             solutions_socio = Applied_solutions.objects.filter(
                 user_id=user.pk,
@@ -83,10 +80,7 @@ class EcoHotels(View):
                 applied=True
             )
 
-            if len(solutions_socioApplied) > 0:
-                percentage_socio = (len(solutions_socioApplied)/len(solutions_socio)) * 100
-            else:
-                percentage_socio = 0
+            percentage_socio = self.calculate_percentage(solutions_socioApplied, solutions_socio)
 
             solutions_eco = Applied_solutions.objects.filter(
                 user_id=user.pk,
@@ -99,10 +93,7 @@ class EcoHotels(View):
                 applied=True
             )
 
-            if len(solutions_ecoApplied) > 0:
-                percentage_eco = (len(solutions_ecoApplied)/len(solutions_eco)) * 100
-            else:
-                percentage_eco = 0
+            percentage_eco = self.calculate_percentage(solutions_ecoApplied, solutions_eco)
 
             user.percentage_natural = percentage_natural
             user.percentage_socio = percentage_socio
@@ -113,3 +104,11 @@ class EcoHotels(View):
             'users_with_profiles': users_with_profiles,
         }
         return render(request, 'core/listEcoHotels.html', context)
+    
+    def calculate_percentage(self, value1, value2):
+        if len(value1) > 0:
+            percentage = (len(value1)/len(value2)) * 100
+        else:
+            percentage = 0
+
+        return percentage

@@ -300,9 +300,41 @@
             border-color: #2B6721;
         }
     </style>
+    <style>
+        .progress-circle {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            background: conic-gradient(
+                #2B6721 calc(var(--progress-value) * 1%), 
+                #e9ecef 0
+            );
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+        }
+
+        .progress-circle::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: #fff;
+            border-radius: 50%;
+        }
+
+        .progress-circle span {
+            position: relative;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2B6721;
+        }
+    </style>
 {% endblock %}
 {%block content%}
-    <div class="row mt-3 mb-4" style="margin-left: 9rem;">
+    <div class="row mt-3 mb-4" style="margin-left: 6rem;">
         <div class="col-3">
             <h1><b>Natural</b></h1>
         </div>
@@ -389,6 +421,14 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="col-3 text-center">
+                <b>Porcentaje de acciones realizadas</b>
+                <div 
+                class="progress-circle" 
+                style="--progress-value: {{ percentage_natural }};">
+                    <span>{{ percentage_natural }}%</span>
+                </div>
+            </div>
         </div>
     {% else %}
         <div class="row justify-content-center mt-2 mb-4">
@@ -419,7 +459,7 @@
         </div>
     {% endif %}
 
-    <div class="row mt-5 mb-4" style="margin-left: 9rem;">
+    <div class="row mt-5 mb-4" style="margin-left: 6rem;">
         <div class="col-6">
             <h1><b>Socio - cultural</b></h1>
         </div>
@@ -506,6 +546,14 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="col-3 text-center">
+                <b>Porcentaje de acciones realizadas</b>
+                <div 
+                class="progress-circle" 
+                style="--progress-value: {{ percentage_socio }};">
+                    <span>{{ percentage_socio }}%</span>
+                </div>
+            </div>
         </div>
     {% else %}
         <div class="row justify-content-center mt-2 mb-4">
@@ -536,7 +584,7 @@
         </div>
     {% endif %}
 
-    <div class="row mt-5 mb-4" style="margin-left: 9rem;">
+    <div class="row mt-5 mb-4" style="margin-left: 6rem;">
         <div class="col-6">
             <h1><b>Económico</b></h1>
         </div>
@@ -623,6 +671,14 @@
                     {% endfor %}
                 </div>
             </div>
+            <div class="col-3 text-center">
+                <b>Porcentaje de acciones realizadas</b>
+                <div 
+                class="progress-circle" 
+                style="--progress-value: {{ percentage_eco }};">
+                    <span>{{ percentage_eco }}%</span>
+                </div>
+            </div>
         </div>
     {% else %}
         <div class="row justify-content-center mt-2 mb-4">
@@ -660,7 +716,7 @@
         var myInput = document.getElementById('myInput')
 
         myModal.addEventListener('shown.bs.modal', function () {
-        myInput.focus()
+            myInput.focus()
         })
     </script>
 {% endblock %}
