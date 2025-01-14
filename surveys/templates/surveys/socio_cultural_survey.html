@@ -178,7 +178,7 @@
         <div class="center-container question mt-4 mb-4" data-question-id="{{ forloop.counter0 }}" style="display: {% if forloop.counter0 != 0 %}none{% endif %};">
             <div class="custom-container" style="border-radius: 10px;">
                 <h3>{{ question.question.question }}</h3>
-                <form id="survey_form" action="{% url 'surveys:score_obtained' %}" method="post" style="width: 90%;">
+                <form id="survey_form" action="{% url 'surveys:score_obtained' %}" method="post" style="width: 95%;">
                     {% csrf_token %}
                     {% if question.question.type == "open" %}
                         <div class="d-flex align-items-center position-relative mb-3 mt-3" style="width: 97%;">
