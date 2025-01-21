@@ -7,131 +7,215 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hoteles_responsables.settings')
 # Inicializa Django
 django.setup()
 
-from surveys.models import Question, Answer
+from surveys.models import Solutions
 
+soluciones = [
+    # Puntaje 26-33
+    {
+        "titulo": "Conservación de la biodiversidad",
+        "texto": "Continuar invirtiendo en la conservación de la biodiversidad local, trabajando con expertos y asociaciones medioambientales.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Mejora de la eficiencia energética",
+        "texto": "Aumentar el uso de tecnologías innovadoras para mejorar la eficiencia energética, como paneles solares.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Aguas pluviales",
+        "texto": "Expandir la reutilización de aguas pluviales. Si ya cuentas con un sistema de captación de agua puedes expandirlo. En caso de no contar con él, puedes implementarlo y utilizar el agua para lavado de patios, riego de áreas verde, etc.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Fomento de áreas verdes nativas",
+        "texto": "Establecer más áreas verdes con especies nativas. Si es necesario, te puedes acercar a un biólogo para que te oriente.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Gestión de residuos",
+        "texto": "Crear un programa de reciclaje en el hotel, integra y capacita al personal.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Educación ambiental para huéspedes y comunidad en general",
+        "texto": "Integrar información sobre sensibilización del uso responsable de agua, energía, áreas verdes. Puedes usar carteles o señalización en áreas comunes y en cada habitación.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Protección de fauna local",
+        "texto": "Establecer protocolos claros que guíen al personal sobre cómo interactuar de manera respetuosa con la fauna nativa que habita o se acerca al hotel. Esto puede incluir medidas para evitar el contacto directo con animales salvajes, como no alimentarlos ni interferir en su comportamiento natural.",
+        "min": 26,
+        "max": 33,
+    },
+    {
+        "titulo": "Material educativo sobre fauna local",
+        "texto": "Proporcionar material educativo a los huéspedes sobre la fauna nativa de la región, destacando la importancia de respetar y proteger a los animales locales. Puedes incluir folletos informativos, señalización en áreas comunes y actividades educativas, como charlas.",
+        "min": 26,
+        "max": 33,
+    },
 
-preguntas_y_respuestas = [
+    # Puntaje 18-25
     {
-        "question": "¿Qué acciones han implementado para reducir el consumo de agua o mejorar su manejo?",
-        "respuestas": {
-            "a": {"text": "Instalamos sistemas de ahorro de agua y capacitamos al personal.", "value": 3},
-            "b": {"text": "Implementamos medidas básicas, como reguladores de flujo.", "value": 2},
-            "c": {"text": "Estamos en proceso de desarrollar estrategias para ahorrar agua.", "value": 1},
-            "d": {"text": "No hemos implementado acciones específicas para el manejo del agua.", "value": 0},
-        },
+        "titulo": "Gestión de residuos",
+        "texto": "Optimizar el sistema de gestión de residuos, ampliando el reciclaje y compostaje en todas las áreas del hotel. Es importante integrar a todo el personal y capacitarlo.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Utilizan energías renovables?",
-        "respuestas": {
-            "a": {"text": "Sí, gran parte de nuestra energía proviene de fuentes renovables.", "value": 3},
-            "b": {"text": "Usamos energías renovables para algunas áreas del hotel.", "value": 2},
-            "c": {"text": "Estamos evaluando la posibilidad de implementar energías renovables.", "value": 1},
-            "d": {"text": "No utilizamos energías renovables actualmente.", "value": 0},
-        },
+        "titulo": "Mejora de la eficiencia energética",
+        "texto": "Iniciar el uso de fuentes de energía renovable, como paneles solares.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Cómo gestionan los residuos generados por el hotel?",
-        "respuestas": {
-            "a": {"text": "Separación de residuos y reciclaje, además de compostaje orgánico.", "value": 3},
-            "b": {"text": "Solo separamos residuos básicos (orgánica e inorgánica).", "value": 2},
-            "c": {"text": "Realizamos un manejo básico sin medidas específicas.", "value": 1},
-            "d": {"text": "No tenemos un sistema de gestión de residuos formal.", "value": 0},
-        },
+        "titulo": "Educación ambiental",
+        "texto": "Crear un programa de educación ambiental para los huéspedes y comunidad en general, involucrándolos en prácticas sostenibles durante su estancia. Puedes usar carteles o señalización en áreas comunes y en cada habitación.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Las plantas que se encuentran en sus áreas verdes son parte de la flora nativa de su región?",
-        "respuestas": {
-            "a": {"text": "Sí, todas nuestras plantas son nativas de la región.", "value": 3},
-            "b": {"text": "La mayoría de las plantas son nativas, pero también hay algunas exóticas.", "value": 2},
-            "c": {"text": "Solo una pequeña parte de nuestras plantas son nativas.", "value": 1},
-            "d": {"text": "No contamos con flora nativa en nuestras áreas verdes.", "value": 0},
-        },
+        "titulo": "Aguas pluviales",
+        "texto": "Revisar los sistemas de ahorro de agua y considerar la instalación de un sistema de captación de aguas pluviales. Si ya cuentas con un sistema de captación de agua puedes expandirlo. En caso de no contar con él, puedes implementarlo y utilizar el agua para lavado de patios, riego de áreas verde, etc.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Cómo protegen la fauna nativa que se acerca a su hotel o sus alrededores?",
-        "respuestas": {
-            "a": {"text": "Seguimos protocolos para proteger a la fauna y evitar su interferencia.", "value": 3},
-            "b": {"text": "Informamos a los huéspedes sobre la fauna local y cómo respetarla.", "value": 2},
-            "c": {"text": "Tomamos medidas básicas, pero no tenemos un protocolo formal.", "value": 1},
-            "d": {"text": "No contamos con acciones específicas para proteger la fauna nativa.", "value": 0},
-        },
+        "titulo": "Uso de productos ecológicos",
+        "texto": "Promover el uso de productos ecológicos, como detergentes biodegradables y cosméticos naturales para huéspedes.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Cuentan con algún sistema para tratar las aguas residuales?",
-        "respuestas": {
-            "a": {"text": "Sí, utilizamos un sistema avanzado de tratamiento de aguas residuales.", "value": 3},
-            "b": {"text": "Contamos con un sistema básico para tratar las aguas residuales.", "value": 2},
-            "c": {"text": "Estamos en proceso de implementar un sistema adecuado.", "value": 1},
-            "d": {"text": "No tenemos un sistema de tratamiento de aguas residuales actualmente.", "value": 0},
-        },
+        "titulo": "Fomento de áreas verdes nativas",
+        "texto": "Establecer más áreas verdes con especies nativas. Si es necesario, te puedes acercar a un biólogo para que te oriente.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Cuentan con algún sistema para reutilizar agua de lluvia?",
-        "respuestas": {
-            "a": {"text": "Sí, capturamos y reutilizamos el agua de lluvia en múltiples áreas.", "value": 3},
-            "b": {"text": "Tenemos un sistema básico de captación y reutilización de agua.", "value": 2},
-            "c": {"text": "Estamos evaluando la posibilidad de implementar este sistema.", "value": 1},
-            "d": {"text": "No contamos con un sistema de reutilización de agua de lluvia.", "value": 0},
-        },
+        "titulo": "Protección de fauna local",
+        "texto": "Establecer protocolos claros que guíen al personal sobre cómo interactuar de manera respetuosa con la fauna nativa que habita o se acerca al hotel. Esto puede incluir medidas para evitar el contacto directo con animales salvajes, como no alimentarlos ni interferir en su comportamiento natural.",
+        "min": 18,
+        "max": 25,
     },
     {
-        "question": "¿Colaboran con agricultores locales para abastecer al hotel?",
-        "respuestas": {
-            "a": {"text": "Sí, gran parte de nuestros alimentos provienen de agricultores locales.", "value": 3},
-            "b": {"text": "Compramos algunos productos de agricultores locales.", "value": 2},
-            "c": {"text": "Solo colaboramos con agricultores locales en casos puntuales.", "value": 1},
-            "d": {"text": "No colaboramos con agricultores locales.", "value": 0},
-        },
+        "titulo": "Material educativo sobre fauna local",
+        "texto": "Proporcionar material educativo a los huéspedes sobre la fauna nativa de la región, destacando la importancia de respetar y proteger a los animales locales. Puedes incluir folletos informativos, señalización en áreas comunes y actividades educativas, como charlas.",
+        "min": 18,
+        "max": 25,
+    },
+
+    # Puntaje 9-17
+    {
+        "titulo": "Ahorro de agua",
+        "texto": "Implementar prácticas básicas de ahorro de agua, como la instalación de reguladores de flujo en duchas y grifos. También puedes implementar carteles en las habitaciones para concientizar a los huéspedes sobre el uso responsable del agua.",
+        "min": 9,
+        "max": 17,
     },
     {
-        "question": "¿Tienen huertos propios para abastecer al hotel?",
-        "respuestas": {
-            "a": {"text": "Sí, contamos con un huerto que abastece gran parte de nuestros alimentos.", "value": 3},
-            "b": {"text": "Tenemos un huerto pequeño para complementar algunos insumos.", "value": 2},
-            "c": {"text": "Estamos en proceso de establecer un huerto propio.", "value": 1},
-            "d": {"text": "No contamos con huertos propios.", "value": 0},
-        },
+        "titulo": "Gestión de residuos",
+        "texto": "Establecer un programa de reciclaje básico para separar residuos reciclables de los no reciclables. Es importante integrar y capacitar a todo el personal.",
+        "min": 9,
+        "max": 17,
     },
     {
-        "question": "Si tiene alberca, ¿cómo funciona su mantenimiento?",
-        "respuestas": {
-            "a": {"text": "Utilizamos sistemas ecológicos para el mantenimiento de la alberca.", "value": 3},
-            "b": {"text": "Seguimos un mantenimiento tradicional con productos químicos.", "value": 2},
-            "c": {"text": "Contratamos servicios externos para el mantenimiento.", "value": 1},
-            "d": {"text": "No tenemos alberca.", "value": 0},
-        },
+        "titulo": "Mejora de la eficiencia energética",
+        "texto": "Empezar a utilizar energías renovables en áreas específicas, como el calentamiento del agua o iluminación exterior a través de paneles solares.",
+        "min": 9,
+        "max": 17,
     },
     {
-        "question": "¿Qué tipo de detergentes utilizan para lavar la ropa de cama, toallas y otros textiles del hotel?",
-        "respuestas": {
-            "a": {"text": "Utilizamos exclusivamente detergentes biodegradables y certificados como amigables con el medio ambiente.", "value": 3},
-            "b": {"text": "Combinamos detergentes biodegradables con opciones tradicionales según la disponibilidad.", "value": 2},
-            "c": {"text": "Estamos en proceso de transición hacia el uso de detergentes más sustentables.", "value": 1},
-            "d": {"text": "Utilizamos detergentes convencionales y no hemos explorado alternativas amigables con el medio ambiente.", "value": 0},
-        },
+        "titulo": "Sensibilización ambiental del personal",
+        "texto": "Introducir la educación ambiental en el programa de inducción de nuevos empleados, para sensibilizarlos sobre la importancia de la sostenibilidad.",
+        "min": 9,
+        "max": 17,
     },
+    {
+        "titulo": "Fomento de áreas verdes nativas",
+        "texto": "Considerar la plantación de especies nativas en las áreas verdes del hotel, mejorando la biodiversidad local. Si es necesario, te puedes acercar a un biólogo para que te oriente.",
+        "min": 9,
+        "max": 17,
+    },
+    {
+        "titulo": "Educación ambiental para huéspedes y comunidad en general",
+        "texto": "Integrar información sobre sensibilización del uso responsable de agua, energía, áreas verdes. Puedes usar carteles o señalización en áreas comunes y en cada habitación.",
+        "min": 9,
+        "max": 17,
+    },
+    {
+        "titulo": "Protección de fauna local",
+        "texto": "Establecer protocolos claros que guíen al personal sobre cómo interactuar de manera respetuosa con la fauna nativa que habita o se acerca al hotel. Esto puede incluir medidas para evitar el contacto directo con animales salvajes, como no alimentarlos ni interferir en su comportamiento natural.",
+        "min": 9,
+        "max": 17,
+    },
+    {
+        "titulo": "Material educativo sobre fauna local",
+        "texto": "Proporcionar material educativo a los huéspedes sobre la fauna nativa de la región, destacando la importancia de respetar y proteger a los animales locales. Puedes incluir folletos informativos, señalización en áreas comunes y actividades educativas, como charlas.",
+        "min": 9,
+        "max": 17,
+    },
+
+    # Puntaje 0-8
+    {
+        "titulo": "Gestión de residuos",
+        "texto": "Comenzar con la implementación de sistemas de reciclaje básicos, separando residuos orgánicos e inorgánicos. Después puedes integrar un sistema de reciclaje más complejo. Es importante integrar y capacitar a todo el personal.",
+        "min": 0,
+        "max": 8,
+    },
+    {
+        "titulo": "Ahorro de agua",
+        "texto": "Instalar sistemas de ahorro de agua, como reguladores en los inodoros y duchas.",
+        "min": 0,
+        "max": 8,
+    },
+    {
+        "titulo": "Uso de productos amigables con el medio ambiente",
+        "texto": "Implementar el uso de detergentes biodegradables y productos de limpieza menos contaminantes.",
+        "min": 0,
+        "max": 8,
+    },
+    {
+        "titulo": "Fomento de áreas verdes nativas",
+        "texto": "Iniciar un proyecto piloto de jardines con plantas nativas para mejorar la biodiversidad en las áreas verdes del hotel. Si es necesario, te puedes acercar a un biólogo para que te oriente.",
+        "min": 0,
+        "max": 8,
+    },
+    {
+        "titulo": "Educación ambiental para huéspedes y comunidad en general",
+        "texto": "Integrar información sobre sensibilización del uso responsable de agua, energía, áreas verdes. Puedes usar carteles o señalización en áreas comunes y en cada habitación.",
+        "min": 0,
+        "max": 8,
+    },
+    {
+        "titulo": "Protección de fauna local",
+        "texto": "Establecer protocolos claros que guíen al personal sobre cómo interactuar de manera respetuosa con la fauna nativa que habita o se acerca al hotel. Esto puede incluir medidas para evitar el contacto directo con animales salvajes, como no alimentarlos ni interferir en su comportamiento natural.",
+        "min": 0,
+        "max": 8,
+    },
+    {
+        "titulo": "Material educativo sobre fauna local",
+        "texto": "Proporcionar material educativo a los huéspedes sobre la fauna nativa de la región, destacando la importancia de respetar y proteger a los animales locales. Puedes incluir folletos informativos, señalización en áreas comunes y actividades educativas, como charlas.",
+        "min": 0,
+        "max": 8,
+    }
 ]
 
 
 # ID del survey al que se asignarán las preguntas
 survey_id = 1
 
-# Inserción en la base de datos
-for pregunta in preguntas_y_respuestas:
-    # Crear la pregunta
-    nueva_pregunta = Question.objects.create(
-        survey_id=survey_id,
-        question=pregunta["question"],
-        value=0,
-        type=Question.MULTIPLE_CHOICE,
+for solution in soluciones:
+    nueva_solucion = Solutions.objects.create(
+        survey_id=survey_id,  
+        title_solution= solution['titulo'],
+        text= solution['texto'],
+        score_min= solution['min'],  
+        score_max= solution['max']
     )
-    
-    # Crear las respuestas asociadas a la pregunta
-    for inciso, datos_respuesta in pregunta["respuestas"].items():
-        Answer.objects.create(
-            question=nueva_pregunta,
-            text=f"{datos_respuesta['text']}",
-            value=datos_respuesta["value"],
-        )
 
 print("Preguntas y respuestas insertadas exitosamente.")
