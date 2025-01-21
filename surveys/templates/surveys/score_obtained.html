@@ -14,9 +14,80 @@
             transform: scale(1.5); 
             color: #1A4D14;
         }
+        .retry-btn {
+            background: #2B6721;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: 0 !important;
+            outline: 0 !important;
+            color: white;
+            cursor: pointer;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .form-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+        }
+        
+        .form-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
+        /* Botón "Ver puntuación" (misma clase que .link-btn) */
+        .view_points {
+            background: #84AD44;
+            padding: 5px 10px;
+            border-radius: 20px;
+            border: none; 
+            color: white;
+            cursor: pointer; 
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.3s ease;
+        }
+        .link-btn:hover {
+            transform: scale(1.1);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 10px;
+            background: #2B6721;
+        }
+        
+        .link-btn:active {
+            transform: scale(1.15);
+            box-shadow: none;
+        }
     </style>
 {% endblock %}
 {% block content %}
+    <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">¿Quieres otra oportunidad?</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body mt-2 mb-2 row">
+                    <div style="font-size: 1.2rem;">
+                        Ya has completado este cuestionario, pero tienes la opción de responderlo nuevamente.
+                    </div>
+                    
+                    <div class="mt-4 mb-4 justify-content-center text-center d-flex gap-3">
+                        <button type="button" class="link-btn view_points" data-bs-dismiss="modal" style="width: auto; font-size: 0.9rem;">
+                            Ver puntuación
+                        </button>
+
+                        <form method="GET" 
+                            action="{% if survey == 'Natural' %}{% url 'surveys:natural_survey' %}{% elif survey == 'Socio - cultural' %}{% url 'surveys:socio-cultural_survey' %}{% else %}{% url 'surveys:economico_survey' %}{% endif %}">
+                            <input type="hidden" name="retry" value="1">
+                            <button type="submit" class="form-btn retry-btn">Reintentar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row justify-content-center text-center mt-4">
         {% if survey == 'Natural' %}
             {% if points >= 26 and points <= 33  %}
@@ -169,4 +240,12 @@
     </div>
 {% endblock %}
 {% block extra_scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var exampleModal = new bootstrap.Modal(document.getElementById('exampleModal'), {
+                keyboard: true
+            });
+            exampleModal.show();
+        });
+    </script>
 {% endblock %}

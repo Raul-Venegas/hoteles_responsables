@@ -355,7 +355,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-5 d-flex">
+            <div class="col-5 d-flex" style="height:100%;">
                 <div class="tab-content border p-4 rounded flex-fill custom-shadow" id="nav-tabContent">
                     {% for applied_solution in Natural %}
                         <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
@@ -416,8 +416,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
                     {% endfor %}
                 </div>
             </div>
@@ -468,7 +466,7 @@
         <div class="row justify-content-center mt-2 mb-4">
             <div class="col-3">
                 <div class="list-group" id="list-tab" role="tablist">
-                    {% for applied_solution in Natural %}
+                    {% for applied_solution in Socio %}
                         <a class="list-group-item list-group-item-action {% if forloop.first %}active{% endif %}"
                         id="list-{{ applied_solution.id }}-list" 
                         data-bs-toggle="list" 
@@ -480,9 +478,9 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-5 d-flex">
+            <div class="col-5 d-flex" style="height:100%;">
                 <div class="tab-content border p-4 rounded flex-fill custom-shadow" id="nav-tabContent">
-                    {% for applied_solution in Natural %}
+                    {% for applied_solution in Socio %}
                         <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
                             id="list-{{ applied_solution.id }}" 
                             role="tabpanel" 
@@ -593,7 +591,7 @@
         <div class="row justify-content-center mt-2 mb-4">
             <div class="col-3">
                 <div class="list-group" id="list-tab" role="tablist">
-                    {% for applied_solution in Natural %}
+                    {% for applied_solution in Eco %}
                         <a class="list-group-item list-group-item-action {% if forloop.first %}active{% endif %}"
                         id="list-{{ applied_solution.id }}-list" 
                         data-bs-toggle="list" 
@@ -605,9 +603,9 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class="col-5 d-flex">
+            <div class="col-5 d-flex" style="height:100%;">
                 <div class="tab-content border p-4 rounded flex-fill custom-shadow" id="nav-tabContent">
-                    {% for applied_solution in Natural %}
+                    {% for applied_solution in Eco %}
                         <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" 
                             id="list-{{ applied_solution.id }}" 
                             role="tabpanel" 

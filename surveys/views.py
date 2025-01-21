@@ -13,8 +13,8 @@ def natural(request):
 
 class Natural_survey(LoginRequiredMixin, View):
     def get(self, request):
-        
-        if not request.user.profile.points_natural:
+        retry = request.GET.get("retry")
+        if not request.user.profile.points_natural or retry:
 
             questions = Question.objects.filter(survey_id=1)
             context = {'questions': [], 'last_question_index': len(questions) - 1}
@@ -22,8 +22,11 @@ class Natural_survey(LoginRequiredMixin, View):
                 answers = Answer.objects.filter(question_id=question.pk)
                 context['questions'].append({
                     'question': question,
-                    'answers': answers
+                    'answers': answers,
                 })
+
+            if retry:
+                context['retry'] = "retry"
 
             return render(request,'surveys/natural_survey.html', context)
         
@@ -36,8 +39,8 @@ def socio_cultural(request):
 
 class Socio_cultural_survey(LoginRequiredMixin, View):
     def get(self, request):
-        
-        if not request.user.profile.points_socio:
+        retry = request.GET.get("retry")
+        if not request.user.profile.points_socio or retry:
 
             questions = Question.objects.filter(survey_id=2)
             context = {'questions': [], 'last_question_index': len(questions) - 1}
@@ -47,6 +50,9 @@ class Socio_cultural_survey(LoginRequiredMixin, View):
                     'question': question,
                     'answers': answers
                 })
+            
+            if retry:
+                context['retry'] = "retry"
 
             return render(request,'surveys/socio_cultural_survey.html', context)
         
@@ -59,8 +65,8 @@ def economico(request):
 
 class Economico_survey(LoginRequiredMixin, View):
     def get(self, request):
-        
-        if not request.user.profile.points_eco:
+        retry = request.GET.get("retry")
+        if not request.user.profile.points_eco or retry:
 
             questions = Question.objects.filter(survey_id=3)
             context = {'questions': [], 'last_question_index': len(questions) - 1}
@@ -70,6 +76,9 @@ class Economico_survey(LoginRequiredMixin, View):
                     'question': question,
                     'answers': answers
                 })
+            
+            if retry:
+                context['retry'] = "retry"
 
             return render(request,'surveys/economico_survey.html', context)
         
@@ -81,11 +90,20 @@ class Score_obtained(LoginRequiredMixin, View):
     def post(self, request):
         survey = request.POST.get('survey')
         points = float(request.POST.get('points'))
+        retry = request.POST.get("retry")
 
         if survey == "Natural":
-            if not request.user.profile.points_natural:
+            if not request.user.profile.points_natural or retry:
                 request.user.profile.points_natural = points
                 request.user.profile.save()
+            
+            if retry:
+                filtered_solutions = Applied_solutions.objects.filter(
+                    user=request.user, 
+                    solution__survey_id=1
+                )
+
+                filtered_solutions.delete()
             
             solutions_natural = Solutions.objects.filter(survey_id=1)
 
@@ -99,9 +117,17 @@ class Score_obtained(LoginRequiredMixin, View):
                     )
 
         elif survey == "Economico":
-            if not request.user.profile.points_eco:
+            if not request.user.profile.points_eco or retry:
                 request.user.profile.points_eco = points
                 request.user.profile.save()
+
+            if retry:
+                filtered_solutions = Applied_solutions.objects.filter(
+                    user=request.user, 
+                    solution__survey_id=3
+                )
+                
+                filtered_solutions.delete()
             
             solutions_eco = Solutions.objects.filter(survey_id=3)
 
@@ -114,9 +140,18 @@ class Score_obtained(LoginRequiredMixin, View):
                         evidence=None
                     )
         else:
-            if not request.user.profile.points_socio:
+            if not request.user.profile.points_socio or retry:
                 request.user.profile.points_socio = points
                 request.user.profile.save()
+
+            if retry:
+                filtered_solutions = Applied_solutions.objects.filter(
+                    user=request.user, 
+                    solution__survey_id=2
+                )
+                
+                filtered_solutions.delete()
+
 
                 solutions_socio = Solutions.objects.filter(survey_id=2)
 

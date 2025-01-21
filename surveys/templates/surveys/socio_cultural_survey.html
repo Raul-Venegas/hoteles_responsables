@@ -344,7 +344,16 @@
                 pageInput2.name = 'points';
                 pageInput2.value = points;
                 surveyForm.appendChild(pageInput2);
+                
+                const retry = "{{ retry|default:'' }}";
 
+                if (retry) {
+                    let pageInput3 = document.createElement('input');
+                    pageInput3.type = 'hidden';
+                    pageInput3.name = 'retry';
+                    pageInput3.value = 'retry';
+                    surveyForm.appendChild(pageInput3);
+                } 
                 surveyForm.submit();
                 
             });
