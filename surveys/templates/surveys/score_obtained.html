@@ -1,49 +1,170 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base_without_nav.html' %}
 {% load static %}
 {% block title %}Puntos obtenidos{% endblock %}
 {% block head %}
-    <link rel="stylesheet" href="{% static 'css/score.css' %}">
+    <style>
+        .custom-link {
+            text-decoration: none;
+            color: #2B6721;
+            font-size: 0.9rem;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+
+        .custom-link:hover {
+            transform: scale(1.5); 
+            color: #1A4D14;
+        }
+    </style>
 {% endblock %}
 {% block content %}
-    <div class="center-container mt-5">
-        <div class="results-summary-container">
-            <div class="confetti">
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-                <div class="confetti-piece"></div>
-            </div>
-            <div class="results-summary-container__result">
-                <div class="heading-tertiary">Cuestionario: {{ survey }}</div>
-                <div class="result-box">
-                    <div class="heading-primary" style="color: black !important;">{{ points }}</div>
-                    <p class="result"></p>
+    <div class="row justify-content-center text-center mt-4">
+        {% if survey == 'Natural' %}
+            {% if points >= 26 and points <= 33  %}
+                <div><img src="{% static 'img/first_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
                 </div>
-                <div class="result-text-box">
-                    <div class="heading-secondary">¡Excelente!</div>
-                    <p class="paragraph">
-                        Se han asignado las acciones para tomar cartas en en asunto ¡Descubrelas!
-                    </p>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Excelente trabajo!</b>
                 </div>
-                <div style="text-align: center;">
-                    <a href="{% url 'surveys:solutions' %}" class="link-btn mb-2 mt-2" >Ver acciones</a>
-                </div>              
-            </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Tus esfuerzos son una inspiración para otros hoteles</b>
+                </div>
+            {% elif points >= 18 and points <= 25 %}
+                <div><img src="{% static 'img/second_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Buen trabajo!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Estás en el camino correcto para alcanzar la excelencia</b>
+                </div>
+            {% elif points >= 9 and points <= 17 %}
+                <div><img src="{% static 'img/three_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Buen inicio!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Con algunas mejoras, puedes alcanzar un impacto más positivo</b>
+                </div>
+            {% else %}
+                <div><img src="{% static 'img/zero_points.png' %}" style="width: 35%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡No te preocupes!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721; width: 85%;">
+                    <b>Cada proyecto comienza con un primer paso. ¡Tienes la oportunidad de mejorar y lograr grandes cambios!</b>
+                </div>
+            {% endif %}
+        {% elif survey == "Socio - cultural" %}
+            {% if points >= 27 and points <= 36  %}
+                <div><img src="{% static 'img/first_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Excelente trabajo!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Tus esfuerzos son una inspiración para otros hoteles</b>
+                </div>
+            {% elif points >= 18 and points <= 26 %}
+                <div><img src="{% static 'img/second_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Buen trabajo!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Estás en el camino correcto para alcanzar la excelencia</b>
+                </div>
+            {% elif points >= 9 and points <= 17 %}
+                <div><img src="{% static 'img/three_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Buen inicio!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Con algunas mejoras, puedes alcanzar un impacto más positivo</b>
+                </div>
+            {% else %}
+                <div><img src="{% static 'img/zero_points.png' %}" style="width: 35%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡No te preocupes!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721; width: 85%;">
+                    <b>Cada proyecto comienza con un primer paso. ¡Tienes la oportunidad de mejorar y lograr grandes cambios!</b>
+                </div>
+            {% endif %}
+        {% else %}
+            {% if points >= 24 and points <= 30  %}
+                <div><img src="{% static 'img/first_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Excelente trabajo!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Tus esfuerzos son una inspiración para otros hoteles</b>
+                </div>
+            {% elif points >= 16 and points <= 23 %}
+                <div><img src="{% static 'img/second_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Buen trabajo!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Estás en el camino correcto para alcanzar la excelencia</b>
+                </div>
+            {% elif points >= 8 and points <= 15 %}
+                <div><img src="{% static 'img/three_place.png' %}" style="width: 40%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡Buen inicio!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721">
+                    <b>Con algunas mejoras, puedes alcanzar un impacto más positivo</b>
+                </div>
+            {% else %}
+                <div><img src="{% static 'img/zero_points.png' %}" style="width: 35%;"></div>
+                <div class="mt-3 mb-2" style="font-size: 1.5rem; color: #2B6721">
+                    <b>Tu puntaje es de {{ points }} puntos</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2.8rem; color: #2B6721">
+                    <b>¡No te preocupes!</b>
+                </div>
+                <div class="mt-2 mb-2" style="font-size: 2rem; color: #2B6721; width: 85%;">
+                    <b>Cada proyecto comienza con un primer paso. ¡Tienes la oportunidad de mejorar y lograr grandes cambios!</b>
+                </div>
+            {% endif %}
+        {% endif %}
+        
+
+        <div class="mt-2 mb-2" style="font-size: 0.9rem; color: #2B6721">
+            <b>A pesar de los logros alcanzados, siempre hay áreas de mejora.</b>
+            <br>
+            <a href="{% url 'surveys:solutions' %}" class="custom-link">
+                ¡Haz click y sigue avanzando y lleva tu hotel al siguiente nivel!
+            </a>
         </div>
     </div>
 {% endblock %}

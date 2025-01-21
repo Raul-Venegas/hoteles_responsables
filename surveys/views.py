@@ -211,4 +211,4 @@ class Solutions_view(LoginRequiredMixin, View):
         else:
             percentage = 0
 
-        return percentage
+        return round(percentage, 2)
