@@ -165,7 +165,7 @@ class Score_obtained(LoginRequiredMixin, View):
                     )
 
         # Renderizar el template con los datos
-        return render(request, 'surveys/score_obtained.html', context={'survey': survey, 'points': points})
+        return render(request, 'surveys/score_obtained.html', context={'survey': survey, 'points': points, 'retry': 'No'})
 
 class Solutions_view(LoginRequiredMixin, View):
     def get(self, request):

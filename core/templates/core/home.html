@@ -274,17 +274,30 @@
     </style>
 {% endblock %}
 {%block content%}
-    <div class="d-flex justify-content-center align-items-center mt-5">
-        <div class="container mb-3">
+    <div class="d-flex justify-content-center align-items-center"
+    style="background-image: url('{% static 'img/home_0.png' %}'); 
+            background-size: cover; 
+            background-position: center; 
+            width: 100%; 
+            height: 90vh; 
+            margin: 0; 
+            padding: 0;">
+        <div class="container mt-4 mb-3">
             <div class="d-flex align-items-center justify-content-between">
-                <div class="me-5" style="width: 40%;"><img src="{% static 'img/home_1.jpeg' %}" class="img-thumbnail"></div>
-                <div class="ms-5 text-end" style="width: 40%;">
-                    <p style="font-size: 1.15rem;">
-                        <b>Bienvenido a Hoteles Responsables</b>, un espacio dedicado a la transición del sector
-                        hotelero hacia un modelo más responsable y sostenible. El sector hotelero tiene un enorme
-                        potencial para ser un motor de cambio positivo. Sin embargo, para lograrlo necesitamos ser
-                        conscientes de nuestro impacto y trabajar activamente para minimizarlo.
-                    </p>
+                <div class="">
+                    <div class="col-6">
+                        <p style="font-size: 3rem; color: white; text-shadow: 5px 5px 5px black;">
+                            <b>Bienvenido a <br> Hoteles Responsables</b>
+                        </p>
+                    </div>
+                    <div class="col-7">
+                        <p style="font-size: 1.2rem; color: white; text-shadow: 5px 5px 5px black; font-weight: bold;">
+                            Un espacio dedicado a la transición del sector
+                            hotelero hacia un modelo más responsable y sostenible. El sector hotelero tiene un enorme
+                            potencial para ser un motor de cambio positivo. Sin embargo, para lograrlo necesitamos ser
+                            conscientes de nuestro impacto y trabajar activamente para minimizarlo.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
