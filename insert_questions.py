@@ -7,7 +7,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hoteles_responsables.settings')
 # Inicializa Django
 django.setup()
 
-from surveys.models import Solutions
+from surveys.models import Solutions, Survey, Question, Answer
 
 soluciones = [
     # Puntaje 26-33

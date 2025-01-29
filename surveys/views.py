@@ -153,7 +153,7 @@ class Score_obtained(LoginRequiredMixin, View):
                 filtered_solutions.delete()
 
 
-                solutions_socio = Solutions.objects.filter(survey_id=2)
+            solutions_socio = Solutions.objects.filter(survey_id=2)
 
             for solution in solutions_socio:
                 if points >= solution.score_min and points <= solution.score_max:
